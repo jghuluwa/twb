@@ -1,0 +1,6 @@
+{
+  "name": "Therabo",
+  "description": "Premium multi-language DTC e-commerce site for Therabo Nitric Oxide wearable health items and medical device award winners.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

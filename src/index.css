@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Brand core (locked) */
+  --color-brand-rose: #E11D48;
+  --color-brand-sky:  #BAE6FD;
+
+  /* Accent glow palette — used ONLY for filter/box-shadow halos, never for fills */
+  --color-accent-cyan:   #22D3EE;
+  --color-accent-violet: #A78BFA;
+
+  /* Ink — slightly bluer than slate-950, for dark sections */
+  --color-ink-950: #0B1120;
+  --color-ink-900: #0F172A;
+  --color-ink-800: #1E293B;
+}
+
+:root {
+  --molecule-shadow:     drop-shadow(0 0 18px rgba(225, 29, 72, 0.45));
+  --molecule-shadow-cyan: drop-shadow(0 0 22px rgba(34, 211, 238, 0.55));
+  --neon-rose:  0 0 12px rgba(225, 29, 72, 0.55), 0 0 32px rgba(225, 29, 72, 0.25);
+  --neon-cyan:  0 0 12px rgba(34, 211, 238, 0.55), 0 0 32px rgba(34, 211, 238, 0.22);
+  --grid-dot:   radial-gradient(rgba(15, 23, 42, 0.08) 1px, transparent 1px);
+}
+
+/* ── Reusable keyframes (shared by all components) ── */
+
+@keyframes molecule-pulse {
+  0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 12px rgba(225, 29, 72, 0.35)); }
+  50%      { transform: scale(1.08); filter: drop-shadow(0 0 28px rgba(225, 29, 72, 0.7)); }
+}
+
+@keyframes molecule-orbit {
+  from { transform: rotate(0deg)   translateX(var(--orbit-radius, 110px)) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(var(--orbit-radius, 110px)) rotate(-360deg); }
+}
+
+@keyframes molecule-orbit-rev {
+  from { transform: rotate(0deg)   translateX(var(--orbit-radius, 110px)) rotate(0deg); }
+  to   { transform: rotate(-360deg) translateX(var(--orbit-radius, 110px)) rotate(360deg); }
+}
+
+@keyframes flow-stream {
+  0%   { background-position:   0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+@keyframes blob-morph {
+  0%, 100% { border-radius: 42% 58% 63% 37% / 38% 49% 51% 62%; }
+  33%      { border-radius: 67% 33% 47% 53% / 56% 33% 67% 44%; }
+  66%      { border-radius: 38% 62% 38% 62% / 64% 47% 53% 36%; }
+}
+
+@keyframes neon-flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1;   filter: brightness(1.08); }
+  20%, 24%, 55%                          { opacity: 0.55; filter: brightness(0.85); }
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(120%);  }
+}
+
+@keyframes scan-line {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 1; }
+  100% { transform: translateY(220%);  opacity: 0; }
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: var(--neon-rose); }
+  50%      { box-shadow: 0 0 24px rgba(225, 29, 72, 0.75), 0 0 56px rgba(225, 29, 72, 0.4); }
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Utility classes (Tailwind v4 — registered as plain CSS) ── */
+
+.flow-stream-bar {
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(34, 211, 238, 0.85) 25%,
+    rgba(225, 29, 72, 0.9)   50%,
+    rgba(167, 139, 250, 0.7) 75%,
+    transparent 100%);
+  background-size: 200% 100%;
+  animation: flow-stream 3.6s linear infinite;
+}
+
+.text-shimmer {
+  background: linear-gradient(90deg, currentColor 0%, rgba(255,255,255,0.95) 50%, currentColor 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent;
+  animation: flow-stream 4.5s linear infinite;
+}
+
+.dot-grid {
+  background-image: var(--grid-dot);
+  background-size: 22px 22px;
+}
+
+.dot-grid-dark {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.scanline::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 0%, rgba(34, 211, 238, 0.65) 50%, transparent 100%);
+  height: 28%;
+  mix-blend-mode: screen;
+  animation: scan-line 4.5s ease-in-out infinite;
+}
+
+.neon-rose  { box-shadow: var(--neon-rose); }
+.neon-cyan  { box-shadow: var(--neon-cyan); }
+
+.molecule-glow      { filter: var(--molecule-shadow); }
+.molecule-glow-cyan { filter: var(--molecule-shadow-cyan); }
+
+/* Respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

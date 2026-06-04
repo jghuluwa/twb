@@ -1,0 +1,42 @@
+{
+  "name": "therabo-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "seed": "tsx src/seed.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "better-sqlite3": "^11.7.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.34.1",
+    "stripe": "^17.5.0",
+    "alipay-sdk": "^4.13.0",
+    "wechatpay-node-v3": "^2.1.5",
+    "nodemailer": "^6.9.16",
+    "dotenv": "^17.2.3",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/cors": "^2.8.17",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.14.0",
+    "@types/nodemailer": "^6.4.17",
+    "tsx": "^4.21.0",
+    "typescript": "~5.8.2"
+  }
+}
