@@ -37,10 +37,10 @@ export default function Footer({ currentLang, onScrollTo, onOpenPage }: FooterPr
 
   const logoSvg = (
     <svg width="24" height="24" viewBox="0 0 100 100" fill="none">
-      <circle cx="32" cy="32" r="16" fill="#F43F5E" />
+      <circle cx="32" cy="32" r="16" fill="#22D3EE" />
       <circle cx="68" cy="32" r="16" fill="#7DD3FC" />
       <circle cx="32" cy="68" r="16" fill="#7DD3FC" />
-      <circle cx="68" cy="68" r="16" fill="#F43F5E" />
+      <circle cx="68" cy="68" r="16" fill="#38BDF8" />
     </svg>
   );
 
@@ -53,7 +53,7 @@ export default function Footer({ currentLang, onScrollTo, onOpenPage }: FooterPr
 
       {/* Faint floating molecule in the footer */}
       <div className="absolute -top-6 right-12 opacity-25 pointer-events-none hidden md:block">
-        <Molecule size={70} glow="rose" animation="float" />
+        <Molecule size={70} glow="cyan" animation="float" />
       </div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -71,7 +71,7 @@ export default function Footer({ currentLang, onScrollTo, onOpenPage }: FooterPr
             <p className="text-slate-400 text-xs sm:text-sm leading-relaxed max-w-xs font-sans font-semibold">
               {t.footerSlogan}
             </p>
-            <div className="flex items-center space-x-1.5 text-xs text-rose-550 font-bold">
+            <div className="flex items-center space-x-1.5 text-xs text-cyan-300 font-bold">
               <Sparkles className="w-3.5 h-3.5" />
               <span>{labels.innovator}</span>
             </div>
@@ -168,8 +168,8 @@ export default function Footer({ currentLang, onScrollTo, onOpenPage }: FooterPr
             whileTap={{ scale: 0.92 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             aria-label="Back to top"
-            className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-rose-600 text-white flex items-center justify-center cursor-pointer"
-            style={{ boxShadow: '0 0 0 1px rgba(255,255,255,0.15), 0 12px 32px -6px rgba(225,29,72,0.65)' }}
+            className="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full text-[#04060d] flex items-center justify-center cursor-pointer"
+            style={{ background: 'linear-gradient(120deg, #38BDF8, #22D3EE)', boxShadow: '0 0 0 1px rgba(255,255,255,0.15), 0 12px 32px -6px rgba(34,211,238,0.65)' }}
           >
             <ArrowUp className="w-5 h-5" />
           </motion.button>

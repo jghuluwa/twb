@@ -19,16 +19,17 @@ export default function CookieBanner({ currentLang, onOpenPrivacy }: { currentLa
   if (!shown) return null;
   const t = T[currentLang];
   return (
-    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-[75] bg-white border-2 border-slate-200 shadow-2xl rounded-2xl p-4 flex items-start gap-3">
-      <Cookie className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+    <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:max-w-md z-[75] bg-[#0a0f1d]/95 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-4 flex items-start gap-3 text-white">
+      <Cookie className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
       <div className="flex-1">
-        <p className="text-xs font-bold text-slate-700 leading-relaxed">{t.body}</p>
+        <p className="text-xs font-bold text-slate-300 leading-relaxed">{t.body}</p>
         <div className="flex items-center gap-3 mt-3">
           <button onClick={() => { localStorage.setItem(KEY, '1'); setShown(false); }}
-            className="text-xs font-extrabold uppercase tracking-wider bg-slate-900 hover:bg-rose-600 text-white px-4 py-2 rounded-lg cursor-pointer">
+            className="text-xs font-extrabold uppercase tracking-wider text-[#04060d] px-4 py-2 rounded-lg cursor-pointer hover:brightness-110"
+            style={{ background: 'linear-gradient(120deg, #38BDF8, #22D3EE)' }}>
             {t.accept}
           </button>
-          <button onClick={() => { onOpenPrivacy(); }} className="text-xs font-bold text-slate-500 hover:text-slate-900 underline cursor-pointer">
+          <button onClick={() => { onOpenPrivacy(); }} className="text-xs font-bold text-slate-400 hover:text-white underline cursor-pointer">
             {t.learn}
           </button>
         </div>

@@ -132,7 +132,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFEFE] relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#04060d] text-white relative overflow-x-hidden">
       <GlowFilter />
       <WaveBackground />
 

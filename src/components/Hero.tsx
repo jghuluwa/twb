@@ -1,12 +1,12 @@
-import { useEffect, useRef, MouseEvent as ReactMouseEvent } from 'react';
-import { ArrowRight, Sparkles, ShieldCheck, Heart, Activity } from 'lucide-react';
+import { useEffect, useRef, ReactNode, MouseEvent as ReactMouseEvent } from 'react';
+import { ArrowRight, ChevronDown, Activity, ShieldCheck, Waves } from 'lucide-react';
 import {
-  motion, useMotionValue, useSpring, useTransform, useReducedMotion
+  motion, useMotionValue, useSpring, useTransform, useMotionTemplate, useReducedMotion
 } from 'motion/react';
 import { Language } from '../types';
 import { translations } from '../data/translations';
-import MoleculeField from './visuals/MoleculeField';
 import Reveal from './visuals/Reveal';
+import PhotonField from './visuals/PhotonField';
 import { useSiteContent } from '../hooks/useSiteContent';
 
 interface HeroProps {
@@ -21,285 +21,273 @@ export default function Hero({ currentLang, onExplore, onScience }: HeroProps) {
   const t = translations[currentLang];
   const siteContent = useSiteContent();
   const reduce = useReducedMotion();
-  const rightRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLElement | null>(null);
 
-  // Pointer-attraction for the molecule orbit
+  // Pointer (-0.5 .. 0.5) drives the material tilt, parallax + specular sheen.
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 80, damping: 22, mass: 0.5 });
-  const sy = useSpring(my, { stiffness: 80, damping: 22, mass: 0.5 });
-  const fieldX = useTransform(sx, (v) => v * 18);
-  const fieldY = useTransform(sy, (v) => v * 18);
+  const spring = { stiffness: 70, damping: 20, mass: 0.6 };
+  const sx = useSpring(mx, spring);
+  const sy = useSpring(my, spring);
+
+  // Pronounced rotation so the material visibly pivots in 3D (no lateral slide).
+  const rotateY = useTransform(sx, [-0.5, 0.5], [18, -18]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [-12, 12]);
+
+  // Specular highlight that tracks the cursor across the weave.
+  const sheenX = useTransform(sx, [-0.5, 0.5], [22, 78]);
+  const sheenY = useTransform(sy, [-0.5, 0.5], [24, 70]);
+  const sheen = useMotionTemplate`radial-gradient(40% 55% at ${sheenX}% ${sheenY}%, rgba(150,205,255,0.30), rgba(120,180,255,0.05) 45%, transparent 70%)`;
+
+  useEffect(() => {
+    const reset = () => { mx.set(0); my.set(0); };
+    window.addEventListener('blur', reset);
+    return () => window.removeEventListener('blur', reset);
+  }, [mx, my]);
 
   const handleMove = (e: ReactMouseEvent) => {
     if (reduce) return;
-    const el = rightRef.current;
+    const el = sectionRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    mx.set((e.clientX - rect.left) / rect.width  - 0.5);
-    my.set((e.clientY - rect.top)  / rect.height - 0.5);
+    mx.set((e.clientX - rect.left) / rect.width - 0.5);
+    my.set((e.clientY - rect.top) / rect.height - 0.5);
   };
   const handleLeave = () => { mx.set(0); my.set(0); };
 
-  // Split headline into characters for per-char reveal
-  const managedHeadline = siteContent.hero.headline[currentLang];
-  const headline = managedHeadline || t.heroHeadingFirst;
-  const highlight = t.heroHeadingHighlight;
-  const second   = t.heroHeadingSecond;
+  const headline = siteContent.hero.headline[currentLang] || t.heroHeadingFirst;
+  const badge = siteContent.hero.badge[currentLang] || t.heroBadge;
+  const subheading = siteContent.hero.subheading[currentLang] || t.heroSubheading;
 
   return (
     <section
       id="hero"
-      className="relative min-h-[88vh] flex items-center overflow-hidden py-20 text-white"
-      style={{
-        background: 'radial-gradient(120% 80% at 30% 10%, #1B2540 0%, #0B1120 55%, #050912 100%)'
-      }}
+      ref={sectionRef}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="relative min-h-[92vh] flex items-center overflow-hidden bg-[#04060d] text-white"
+      style={{ perspective: 1000 }}
     >
-      {/* Flow-stream top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-px overflow-hidden">
-        <div className="absolute inset-0 flow-stream-bar opacity-90" />
-      </div>
+      {/* ── Fabric backdrop — full-bleed, rotates in 3D with the cursor ── */}
+      <motion.div
+        className="absolute inset-0 z-0 will-change-transform"
+        style={{ rotateX, rotateY, transformStyle: 'preserve-3d', transformOrigin: '60% 50%' }}
+      >
+        <img
+          src="/photex-fabric-hero.jpg"
+          alt={currentLang === 'en'
+            ? 'PHOTEX intelligent terahertz fabric emitting blue bio-resonance waves'
+            : 'PHOTEX 智能太赫兹功能面料释放蓝色生物共振波'}
+          className="absolute inset-0 h-full w-full object-cover object-[72%_center] scale-[1.22]"
+          fetchPriority="high"
+          decoding="async"
+        />
+        {/* Specular sheen — light catching the weave at different angles */}
+        <motion.div
+          className="absolute inset-0 mix-blend-screen pointer-events-none"
+          style={{ background: reduce ? 'none' : sheen }}
+        />
+      </motion.div>
 
-      {/* Dotted grid texture */}
-      <div className="absolute inset-0 dot-grid-dark opacity-40" />
-
-      {/* Twin morphing blobs (rose + cyan) */}
+      {/* Legibility scrim — fades the left side to solid ink for the copy */}
       <div
-        className="absolute -top-32 -left-16 w-[520px] h-[520px] opacity-40 blur-3xl pointer-events-none"
+        className="absolute inset-0 z-[1] pointer-events-none"
         style={{
-          background: 'radial-gradient(closest-side, rgba(225,29,72,0.65), transparent 70%)',
-          animation: 'blob-morph 18s ease-in-out infinite'
+          background:
+            'linear-gradient(90deg, #04060d 0%, rgba(4,6,13,0.92) 26%, rgba(4,6,13,0.55) 48%, rgba(4,6,13,0.12) 66%, transparent 80%)'
         }}
       />
-      <div
-        className="absolute -bottom-40 -right-16 w-[600px] h-[600px] opacity-35 blur-3xl pointer-events-none"
-        style={{
-          background: 'radial-gradient(closest-side, rgba(34,211,238,0.55), transparent 70%)',
-          animation: 'blob-morph 22s ease-in-out infinite reverse'
-        }}
-      />
+      {/* Top + bottom blends so the section melts into the header / next section */}
+      <div className="absolute inset-x-0 top-0 h-28 z-[1] pointer-events-none bg-gradient-to-b from-[#04060d] to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-32 z-[1] pointer-events-none bg-gradient-to-t from-[#04060d] to-transparent" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      {/* ── Photon field — drifting blue light points, gather/disperse on cursor ── */}
+      <PhotonField className="absolute inset-0 z-[2] mix-blend-screen pointer-events-none" originX={0.6} originY={0.4} />
 
-          {/* Left — copy */}
-          <div className="lg:col-span-7 flex flex-col justify-center text-left space-y-7">
+      {/* ── Floating telemetry chips over the fabric ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1.1, duration: 0.7, ease: EASE }}
+        className="hidden md:flex absolute z-[3] right-6 lg:right-12 top-[20%] flex-col gap-3 pointer-events-none"
+      >
+        <TelemetryChip
+          icon={<Waves className="w-3.5 h-3.5" />}
+          label="PHOTEX RESONANCE"
+          value="25–43 THz"
+          tone="cyan"
+        />
+        <TelemetryChip
+          icon={<Activity className="w-3.5 h-3.5" />}
+          label={currentLang === 'en' ? 'LIVE · NO EMISSION' : '实时 · 一氧化氮释放'}
+          value="2.7× baseline"
+          tone="sky"
+          live
+        />
+      </motion.div>
 
-            {/* Tagline / Badge */}
-            <Reveal>
-              <div className="inline-flex self-start items-center gap-2 bg-white/5 border border-white/10 text-rose-200 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide backdrop-blur-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-400" style={{ animation: 'molecule-pulse 2s ease-in-out infinite' }} />
-                <Sparkles className="w-3.5 h-3.5 text-rose-300" />
-                <span>{siteContent.hero.badge[currentLang] || t.heroBadge}</span>
-              </div>
-            </Reveal>
+      {/* ── Copy ── */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-[4] w-full">
+        <div
+          className="max-w-2xl space-y-7 py-24"
+          style={{ textShadow: '0 2px 22px rgba(4,6,13,0.75)' }}
+        >
 
-            {/* Headline — per-word reveal */}
-            <h1 className="font-sans text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tighter">
-              {managedHeadline ? (
-                <span
-                  className="bg-clip-text text-transparent inline-block"
-                  style={{
-                    backgroundImage: 'linear-gradient(120deg, #FFFFFF 0%, #FCA5A5 52%, #22D3EE 100%)',
-                    textShadow: '0 0 32px rgba(244,63,94,0.25)'
-                  }}
-                >
-                  <SplitReveal text={headline} />
-                </span>
-              ) : (
-                <>
-                  <SplitReveal text={headline} />{' '}
-                  <span
-                    className="bg-clip-text text-transparent inline-block align-baseline"
-                    style={{
-                      backgroundImage: 'linear-gradient(120deg, #FCA5A5 0%, #F43F5E 40%, #22D3EE 100%)',
-                      textShadow: '0 0 32px rgba(244,63,94,0.35)'
-                    }}
-                  >
-                    <SplitReveal text={highlight} delayBase={0.35} />
-                  </span>
-                  <span className="block text-white/90 text-3xl sm:text-4xl lg:text-5xl font-extrabold mt-3 tracking-tight">
-                    <SplitReveal text={second} delayBase={0.7} />
-                  </span>
-                </>
-              )}
-            </h1>
-
-            {/* Subheading */}
-            <Reveal delay={0.85}>
-              <p className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed font-semibold">
-                {siteContent.hero.subheading[currentLang] || t.heroSubheading}
-              </p>
-            </Reveal>
-
-            {/* Feature grid */}
-            <Reveal delay={1.0} stagger={0.08}>
-              <div className="grid grid-cols-2 gap-4 pt-2">
-                <Reveal as="div">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 bg-rose-500/15 text-rose-300 rounded-lg border border-rose-500/30">
-                      <Heart className="w-4 h-4" />
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold text-slate-200">
-                      {currentLang === 'en' ? 'Stimulates Nitric Oxide' : '刺激自体生成一氧化氮'}
-                    </span>
-                  </div>
-                </Reveal>
-                <Reveal as="div">
-                  <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 bg-cyan-500/15 text-cyan-300 rounded-lg border border-cyan-500/30">
-                      <ShieldCheck className="w-4 h-4" />
-                    </div>
-                    <span className="text-xs sm:text-sm font-bold text-slate-200">
-                      {currentLang === 'en' ? 'Zero Medication Side-effects' : '100% 纯物理安全无药性'}
-                    </span>
-                  </div>
-                </Reveal>
-              </div>
-            </Reveal>
-
-            {/* CTAs — 3D tilt on hover */}
-            <Reveal delay={1.2}>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-4" style={{ perspective: 1000 }}>
-                <motion.button
-                  onClick={onExplore}
-                  whileHover={reduce ? undefined : { rotateX: -6, rotateY: 4, scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-                  className="relative group flex items-center justify-center gap-2 px-8 py-4 bg-rose-600 text-white rounded-xl font-bold cursor-pointer overflow-hidden"
-                  style={{ boxShadow: '0 14px 40px -10px rgba(225,29,72,0.65), inset 0 0 0 1px rgba(255,255,255,0.15)' }}
-                >
-                  <span className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{ background: 'linear-gradient(120deg, rgba(34,211,238,0.35) 0%, transparent 70%)' }} />
-                  <span className="relative">{t.heroCtaBuy}</span>
-                  <ArrowRight className="relative w-4.5 h-4.5 group-hover:translate-x-1 transition-transform" />
-                </motion.button>
-                <motion.button
-                  onClick={onScience}
-                  whileHover={reduce ? undefined : { rotateX: -4, rotateY: -3, scale: 1.02 }}
-                  whileTap={{ scale: 0.97 }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 18 }}
-                  className="flex items-center justify-center gap-2 px-8 py-4 bg-white/5 border border-white/15 text-white/90 rounded-xl font-bold hover:bg-white/10 backdrop-blur-sm cursor-pointer"
-                >
-                  <span>{t.heroCtaScience}</span>
-                </motion.button>
-              </div>
-            </Reveal>
-
-            {/* Trust indicators */}
-            <Reveal delay={1.35}>
-              <div className="grid grid-cols-3 gap-6 pt-6 border-t border-white/10 max-w-md">
-                <Stat value="98%"  label="Absorption Rate" />
-                <Stat value="2.4x" label="Vasodilation" />
-                <Stat value="ISO"  label="Certified Lab" />
-              </div>
-            </Reveal>
-          </div>
-
-          {/* Right — molecule orbit + live NO panel */}
-          <div
-            ref={rightRef}
-            onMouseMove={handleMove}
-            onMouseLeave={handleLeave}
-            className="lg:col-span-5 relative flex justify-center items-center min-h-[420px]"
-            style={{ perspective: 1200 }}
-          >
-            {/* Outer glow ring */}
-            <div
-              className="absolute w-[460px] h-[460px] rounded-full opacity-50 pointer-events-none"
-              style={{
-                background: 'radial-gradient(closest-side, rgba(225,29,72,0.45), transparent 70%)',
-                filter: 'blur(40px)',
-                animation: 'molecule-pulse 4s ease-in-out infinite'
-              }}
-            />
-
-            {/* Orbiting molecules — attracted to pointer */}
-            <motion.div style={{ x: fieldX, y: fieldY }} className="absolute">
-              <MoleculeField mode="orbit" count={6} size={420} moleculeSize={48} glow="rose" />
-            </motion.div>
-
-            {/* Central NO badge */}
-            <motion.div
-              initial={{ scale: 0.6, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.9, delay: 0.3, ease: EASE }}
-              className="relative z-10 flex flex-col items-center justify-center w-44 h-44 rounded-full"
-              style={{
-                background: 'radial-gradient(closest-side, rgba(225,29,72,0.95), rgba(136,19,55,0.9))',
-                boxShadow: '0 0 60px rgba(225,29,72,0.55), inset 0 0 30px rgba(255,255,255,0.12)'
-              }}
-            >
-              <span className="text-[10px] font-mono font-bold tracking-[0.25em] text-rose-100/80">NITRIC OXIDE</span>
-              <span className="font-mono text-6xl font-black text-white leading-none mt-1" style={{ textShadow: '0 0 18px rgba(255,255,255,0.4)' }}>
-                NO
+          <Reveal>
+            <div className="inline-flex items-center gap-2.5 rounded-full border border-cyan-300/25 bg-cyan-400/[0.06] px-4 py-1.5 text-[11px] font-bold tracking-wide text-cyan-100 backdrop-blur-sm">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-75" style={{ animation: 'molecule-pulse 2s ease-in-out infinite' }} />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-cyan-200" />
               </span>
-              <span className="text-[10px] font-mono font-bold tracking-[0.25em] text-rose-100/80 mt-1">N≡O · 1998 NOBEL</span>
-            </motion.div>
+              <span>{badge}</span>
+            </div>
+          </Reveal>
 
-            {/* Live emission gauge — bottom-left card */}
-            <motion.div
-              initial={{ y: 18, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1.2, duration: 0.7, ease: EASE }}
-              className="absolute -bottom-2 left-4 sm:left-0 backdrop-blur-md bg-white/8 border border-white/15 rounded-2xl p-3.5 shadow-2xl min-w-[200px]"
+          <h1 className="font-sans text-4xl sm:text-5xl lg:text-[4.1rem] font-extrabold leading-[1.05] tracking-tighter">
+            <span className="block text-white/95">
+              <SplitReveal text={headline} />
+            </span>
+            <span
+              className="block bg-clip-text text-transparent"
+              style={{
+                backgroundImage: 'linear-gradient(108deg, #E0F2FE 0%, #38BDF8 42%, #22D3EE 100%)',
+                textShadow: '0 0 38px rgba(56,189,248,0.30)'
+              }}
             >
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-emerald-400" style={{ animation: 'molecule-pulse 1.6s ease-in-out infinite', boxShadow: '0 0 8px #34d399' }} />
-                <span className="text-[10px] font-mono font-bold tracking-widest text-emerald-300 uppercase">LIVE · NO EMISSION</span>
-              </div>
-              <div className="flex items-end gap-2 mt-2">
-                <DataTick base={2.7} jitter={0.18} />
-                <span className="text-[11px] font-mono font-bold text-slate-300/80 mb-1">× baseline</span>
-              </div>
-              <p className="text-[10px] font-bold text-slate-400 mt-1">25 THz · PHOTEX resonance</p>
-            </motion.div>
+              <SplitReveal text={t.heroHeadingHighlight} delayBase={0.3} />
+            </span>
+            <span className="block text-2xl sm:text-3xl lg:text-[2.4rem] font-bold text-slate-300/90 mt-3 tracking-tight">
+              <SplitReveal text={t.heroHeadingSecond} delayBase={0.55} />
+            </span>
+          </h1>
 
-            {/* Tech callout — top-right card */}
-            <motion.div
-              initial={{ y: -18, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 1.35, duration: 0.7, ease: EASE }}
-              className="absolute -top-2 right-2 sm:right-0 backdrop-blur-md bg-white/8 border border-white/15 rounded-2xl p-3 shadow-2xl"
-            >
-              <div className="flex items-center gap-2">
-                <Activity className="w-3.5 h-3.5 text-cyan-300" />
-                <span className="text-[10px] font-mono font-bold tracking-widest text-cyan-300 uppercase">25–43 THz</span>
-              </div>
-              <p className="text-[10px] font-bold text-slate-300 mt-1">
-                {currentLang === 'en' ? 'Bio-resonance Active' : '太赫兹生物共振激活'}
-              </p>
-            </motion.div>
-          </div>
+          <Reveal delay={0.75}>
+            <p className="max-w-lg text-base sm:text-lg leading-relaxed font-medium text-slate-200/95">
+              {subheading}
+            </p>
+          </Reveal>
+
+          {/* Feature row */}
+          <Reveal delay={0.9}>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 pt-1">
+              <Feature icon={<Waves className="w-4 h-4" />} text={currentLang === 'en' ? 'Stimulates endogenous Nitric Oxide' : '激发自体内源性一氧化氮'} />
+              <Feature icon={<ShieldCheck className="w-4 h-4" />} text={currentLang === 'en' ? 'Pure physics — zero medication' : '纯物理共振 · 无药性副作用'} />
+            </div>
+          </Reveal>
+
+          {/* CTAs */}
+          <Reveal delay={1.05}>
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-3">
+              <motion.button
+                onClick={onExplore}
+                whileHover={reduce ? undefined : { scale: 1.025 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 240, damping: 18 }}
+                className="group relative flex items-center justify-center gap-2 overflow-hidden rounded-xl px-8 py-4 font-bold text-[#04060d] cursor-pointer"
+                style={{
+                  background: 'linear-gradient(120deg, #BAE6FD 0%, #38BDF8 50%, #22D3EE 100%)',
+                  boxShadow: '0 16px 44px -12px rgba(34,211,238,0.65), inset 0 0 0 1px rgba(255,255,255,0.25)'
+                }}
+              >
+                <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/45 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+                <span className="relative">{t.heroCtaBuy}</span>
+                <ArrowRight className="relative w-4.5 h-4.5 transition-transform group-hover:translate-x-1" />
+              </motion.button>
+              <motion.button
+                onClick={onScience}
+                whileHover={reduce ? undefined : { scale: 1.025 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 240, damping: 18 }}
+                className="flex items-center justify-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-8 py-4 font-bold text-white/90 backdrop-blur-sm transition-colors hover:bg-white/10 hover:border-white/25 cursor-pointer"
+              >
+                <span>{t.heroCtaScience}</span>
+              </motion.button>
+            </div>
+          </Reveal>
+
+          {/* Trust stats */}
+          <Reveal delay={1.2}>
+            <div className="grid grid-cols-3 gap-6 max-w-md border-t border-white/10 pt-6">
+              <Stat value="200%+" label={currentLang === 'en' ? 'NO after 1 hr' : '理疗后 NO 提升'} />
+              <Stat value="25–43" label="THz resonance" />
+              <Stat value="ISO" label={currentLang === 'en' ? 'Certified lab' : '国家级实验室'} />
+            </div>
+          </Reveal>
         </div>
       </div>
 
-      {/* Bottom flow-stream divider hint */}
-      <div className="absolute bottom-0 left-0 right-0 h-px overflow-hidden opacity-70">
-        <div className="absolute inset-0 flow-stream-bar" />
-      </div>
+      {/* Scroll cue */}
+      <motion.button
+        onClick={onScience}
+        aria-label={currentLang === 'en' ? 'Scroll to learn more' : '向下滚动了解更多'}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.6, duration: 0.8 }}
+        className="absolute bottom-6 left-1/2 z-[4] -translate-x-1/2 flex flex-col items-center gap-1.5 text-cyan-200/70 hover:text-cyan-100 transition-colors cursor-pointer"
+      >
+        <span className="text-[10px] font-mono font-bold tracking-[0.3em] uppercase">Scroll</span>
+        <motion.span
+          animate={reduce ? undefined : { y: [0, 6, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ChevronDown className="w-4 h-4" />
+        </motion.span>
+      </motion.button>
     </section>
+  );
+}
+
+function Feature({ icon, text }: { icon: ReactNode; text: string }) {
+  return (
+    <div className="flex items-center gap-2.5">
+      <span className="grid h-7 w-7 place-items-center rounded-lg border border-cyan-400/25 bg-cyan-400/10 text-cyan-300">
+        {icon}
+      </span>
+      <span className="text-sm font-semibold text-slate-200">{text}</span>
+    </div>
   );
 }
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div>
-      <div className="text-2xl font-black text-white" style={{ textShadow: '0 0 18px rgba(225,29,72,0.35)' }}>
+      <div className="font-mono text-2xl font-black text-white" style={{ textShadow: '0 0 18px rgba(56,189,248,0.35)' }}>
         {value}
       </div>
-      <div className="text-[10px] text-slate-400 uppercase tracking-wider font-bold mt-0.5">{label}</div>
+      <div className="mt-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</div>
+    </div>
+  );
+}
+
+function TelemetryChip({
+  icon, label, value, tone, live
+}: {
+  icon: ReactNode; label: string; value: string; tone: 'cyan' | 'sky'; live?: boolean;
+}) {
+  const toneClass = tone === 'cyan' ? 'text-cyan-300' : 'text-sky-300';
+  return (
+    <div className="rounded-2xl border border-white/12 bg-white/[0.06] px-3.5 py-2.5 backdrop-blur-md shadow-2xl min-w-[176px]">
+      <div className="flex items-center gap-2">
+        {live ? (
+          <span className="h-2 w-2 rounded-full bg-emerald-400" style={{ animation: 'molecule-pulse 1.6s ease-in-out infinite', boxShadow: '0 0 8px #34d399' }} />
+        ) : (
+          <span className={toneClass}>{icon}</span>
+        )}
+        <span className={`text-[10px] font-mono font-bold uppercase tracking-widest ${live ? 'text-emerald-300' : toneClass}`}>
+          {label}
+        </span>
+      </div>
+      <div className="mt-1 font-mono text-lg font-black text-white">{value}</div>
     </div>
   );
 }
 
 /**
- * Splits text into words, fades each word up sequentially. CJK is treated as
- * one "word" per character so Chinese also benefits from the staggered reveal.
+ * Splits text into words and fades each up sequentially. CJK is split per
+ * character so Chinese also benefits from the staggered reveal.
  */
 function SplitReveal({ text, delayBase = 0 }: { text: string; delayBase?: number }) {
   const reduce = useReducedMotion();
-  // Split: ASCII words preserved as units; CJK split per-char
   const tokens: string[] = [];
   let buf = '';
   for (const ch of text) {
@@ -333,32 +321,5 @@ function SplitReveal({ text, delayBase = 0 }: { text: string; delayBase?: number
         )
       )}
     </>
-  );
-}
-
-/**
- * Tiny "live" number that jitters every 1.2s within a band — cosmetic only,
- * gives the gauge a "real telemetry" feel without any network.
- */
-function DataTick({ base, jitter }: { base: number; jitter: number }) {
-  const v = useMotionValue(base);
-  const spring = useSpring(v, { stiffness: 70, damping: 20 });
-  const text = useTransform(spring, (n) => n.toFixed(2));
-
-  useEffect(() => {
-    const id = window.setInterval(
-      () => v.set(base + (Math.random() - 0.5) * 2 * jitter),
-      1200
-    );
-    return () => window.clearInterval(id);
-  }, [base, jitter, v]);
-
-  return (
-    <motion.span
-      className="font-mono text-3xl font-black text-white leading-none"
-      style={{ textShadow: '0 0 18px rgba(225,29,72,0.5)' }}
-    >
-      {text}
-    </motion.span>
   );
 }

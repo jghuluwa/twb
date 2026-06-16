@@ -112,7 +112,7 @@ export default function ProductDetailPage({
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFEFE] py-8 sm:py-12">
+    <div className="min-h-screen py-8 sm:py-12 text-white">
       <AnimatePresence>
         {showNotification && (
           <motion.div initial={{ opacity: 0, y: -15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }}
@@ -123,22 +123,22 @@ export default function ProductDetailPage({
       </AnimatePresence>
 
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <button onClick={onBack} className="mb-7 flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-extrabold text-slate-700 shadow-sm transition hover:border-rose-200 hover:text-rose-600">
+        <button onClick={onBack} className="mb-7 flex items-center gap-2 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-2.5 text-sm font-extrabold text-slate-200 transition hover:border-cyan-400/40 hover:text-cyan-300 cursor-pointer">
           <ArrowLeft className="h-4 w-4" />{l.back}
         </button>
 
         <div className="grid gap-10 lg:grid-cols-12">
           <section className="lg:col-span-6">
             <p className="mb-3 text-xs font-black uppercase tracking-widest text-slate-400">{l.gallery}</p>
-            <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-slate-200 bg-slate-50">
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03]">
               {images.length > 0 ? (
                 <>
                   <button onClick={() => setLightboxOpen(true)} className="absolute inset-0 z-10 cursor-zoom-in" aria-label={l.gallery} />
                   <img src={images[selectedImage]} alt={`${name} ${selectedImage + 1}`} className="h-full w-full object-contain" />
-                  <span className="absolute right-4 top-4 rounded-full bg-white/90 p-2 text-slate-700 shadow"><Expand className="h-4 w-4" /></span>
+                  <span className="absolute right-4 top-4 rounded-full bg-black/50 p-2 text-slate-200 shadow"><Expand className="h-4 w-4" /></span>
                   {images.length > 1 && <>
-                    <button onClick={() => changeImage(-1)} className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2.5 text-slate-700 shadow" aria-label={l.prev}><ChevronLeft className="h-5 w-5" /></button>
-                    <button onClick={() => changeImage(1)} className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/90 p-2.5 text-slate-700 shadow" aria-label={l.next}><ChevronRight className="h-5 w-5" /></button>
+                    <button onClick={() => changeImage(-1)} className="absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-2.5 text-slate-200 shadow" aria-label={l.prev}><ChevronLeft className="h-5 w-5" /></button>
+                    <button onClick={() => changeImage(1)} className="absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full bg-black/50 p-2.5 text-slate-200 shadow" aria-label={l.next}><ChevronRight className="h-5 w-5" /></button>
                   </>}
                 </>
               ) : (
@@ -153,7 +153,7 @@ export default function ProductDetailPage({
               <div className="mt-3 grid grid-cols-5 gap-2 sm:grid-cols-6">
                 {images.map((image, index) => (
                   <button key={`${image}-${index}`} onClick={() => setSelectedImage(index)}
-                    className={`aspect-square overflow-hidden rounded-xl border-2 bg-slate-50 ${selectedImage === index ? 'border-rose-500' : 'border-slate-200'}`}>
+                    className={`aspect-square overflow-hidden rounded-xl border-2 bg-white/[0.03] ${selectedImage === index ? 'border-cyan-400' : 'border-white/15'}`}>
                     <img src={image} alt={`${name} ${index + 1}`} className="h-full w-full object-cover" loading="lazy" />
                   </button>
                 ))}
@@ -163,51 +163,52 @@ export default function ProductDetailPage({
 
           <section className="space-y-7 lg:col-span-6">
             <div>
-              <span className="inline-flex rounded-full bg-teal-50 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-teal-700">
+              <span className="inline-flex rounded-full bg-cyan-500/10 border border-cyan-500/30 px-3 py-1 text-[10px] font-black uppercase tracking-widest text-cyan-300">
                 {product.category === 'protective' ? t.categoryProtective : product.category === 'underwear' ? t.categoryUnderwear : t.categorySpecial}
               </span>
-              <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">{name}</h1>
-              <p className="mt-3 text-base font-bold leading-relaxed text-rose-600">{tagline}</p>
+              <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">{name}</h1>
+              <p className="mt-3 text-base font-bold leading-relaxed text-cyan-300">{tagline}</p>
             </div>
 
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/70 p-5">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
               <h2 className="mb-2 text-xs font-black uppercase tracking-wider text-slate-400">{l.description}</h2>
-              <p className="text-sm font-semibold leading-relaxed text-slate-600">{description}</p>
+              <p className="text-sm font-semibold leading-relaxed text-slate-300">{description}</p>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-white p-5 sm:p-6">
+            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5 sm:p-6">
               <div className="grid gap-5 sm:grid-cols-2">
                 <div>
-                  <p className="mb-2 text-xs font-extrabold text-slate-700">{l.color}</p>
+                  <p className="mb-2 text-xs font-extrabold text-slate-200">{l.color}</p>
                   <div className="flex flex-wrap gap-2">
                     {product.colors.map((color) => (
                       <button key={`${color.name}-${color.hex}`} onClick={() => setSelectedColor(color)} title={color.name}
                         style={{ backgroundColor: color.hex }}
-                        className={`h-8 w-8 rounded-full border-2 ${selectedColor.hex === color.hex ? 'border-rose-500 ring-4 ring-rose-100' : 'border-slate-300'}`} />
+                        className={`h-8 w-8 rounded-full border-2 ${selectedColor.hex === color.hex ? 'border-cyan-400 ring-4 ring-cyan-500/25' : 'border-white/25'}`} />
                     ))}
                   </div>
                   <p className="mt-2 text-xs font-bold text-slate-400">{l.selected}: {selectedColor.name}</p>
                 </div>
                 <div>
-                  <p className="mb-2 text-xs font-extrabold text-slate-700">{t.sizeLabel}</p>
+                  <p className="mb-2 text-xs font-extrabold text-slate-200">{t.sizeLabel}</p>
                   <div className="flex flex-wrap gap-2">
                     {(product.sizes || []).map((size) => (
                       <button key={size} onClick={() => setSelectedSize(size)}
-                        className={`rounded-lg border px-3 py-2 text-xs font-black ${selectedSize === size ? 'border-slate-900 bg-slate-900 text-white' : 'border-slate-200 text-slate-600'}`}>{size}</button>
+                        className={`rounded-lg border px-3 py-2 text-xs font-black cursor-pointer ${selectedSize === size ? 'border-cyan-400 bg-cyan-400/15 text-cyan-200' : 'border-white/15 text-slate-300 hover:border-white/30'}`}>{size}</button>
                     ))}
                   </div>
                 </div>
               </div>
               {(showPrices || shoppingEnabled) && (
-                <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-slate-100 pt-5">
-                  {showPrices && <strong className="font-mono text-3xl text-slate-950">{currencySymbol}{(currentPrice * quantity).toLocaleString()}</strong>}
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-white/10 pt-5">
+                  {showPrices && <strong className="font-mono text-3xl text-white">{currencySymbol}{(currentPrice * quantity).toLocaleString()}</strong>}
                   {shoppingEnabled && <div className="flex items-center gap-3">
-                    <div className="flex items-center rounded-xl border border-slate-200">
+                    <div className="flex items-center rounded-xl border border-white/15">
                       <button onClick={() => setQuantity(Math.max(1, quantity - 1))} className="h-11 w-10 font-black text-slate-500">-</button>
                       <span className="w-8 text-center text-xs font-black">{quantity}</span>
                       <button onClick={() => setQuantity(quantity + 1)} className="h-11 w-10 font-black text-slate-500">+</button>
                     </div>
-                    <button onClick={addToCart} className="flex items-center gap-2 rounded-xl bg-rose-600 px-5 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-rose-100">
+                    <button onClick={addToCart} className="flex items-center gap-2 rounded-xl px-5 py-3.5 text-sm font-extrabold text-[#04060d] hover:brightness-110 cursor-pointer"
+                      style={{ background: 'linear-gradient(120deg, #BAE6FD, #38BDF8 55%, #22D3EE)', boxShadow: '0 12px 32px -10px rgba(34,211,238,0.6)' }}>
                       <ShoppingCart className="h-4 w-4" />{t.addToCart}
                     </button>
                   </div>}
@@ -215,18 +216,18 @@ export default function ProductDetailPage({
               )}
             </div>
 
-            <div className="rounded-3xl border border-teal-100 bg-teal-50/30 p-5 sm:p-6">
-              <h2 className="mb-4 text-sm font-extrabold text-teal-800">{l.benefits}</h2>
+            <div className="rounded-3xl border border-cyan-500/20 bg-cyan-500/[0.06] p-5 sm:p-6">
+              <h2 className="mb-4 text-sm font-extrabold text-cyan-300">{l.benefits}</h2>
               <div className="grid gap-2 sm:grid-cols-2">
                 {details.map((detail, index) => (
-                  <div key={index} className="flex gap-2 rounded-xl bg-white p-3 text-xs font-bold leading-relaxed text-slate-600">
-                    <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-teal-500" />{detail}
+                  <div key={index} className="flex gap-2 rounded-xl bg-white/[0.04] border border-white/10 p-3 text-xs font-bold leading-relaxed text-slate-300">
+                    <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-cyan-400" />{detail}
                   </div>
                 ))}
               </div>
-              {recommendedUse && <div className="mt-5 border-t border-teal-100 pt-4">
-                <h3 className="mb-2 text-xs font-black text-teal-800">{l.usage}</h3>
-                <p className="text-xs font-semibold leading-relaxed text-slate-600">{recommendedUse}</p>
+              {recommendedUse && <div className="mt-5 border-t border-cyan-500/20 pt-4">
+                <h3 className="mb-2 text-xs font-black text-cyan-300">{l.usage}</h3>
+                <p className="text-xs font-semibold leading-relaxed text-slate-300">{recommendedUse}</p>
               </div>}
             </div>
           </section>

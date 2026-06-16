@@ -114,7 +114,7 @@ export default function ScienceSection({ currentLang }: ScienceSectionProps) {
         {/* Section Header */}
         <Reveal>
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <div className="inline-flex items-center gap-1.5 bg-rose-500/10 text-rose-300 px-3.5 py-1 rounded-full text-xs font-bold tracking-wider mb-4 uppercase border border-rose-500/30">
+            <div className="inline-flex items-center gap-1.5 bg-cyan-500/10 text-cyan-300 px-3.5 py-1 rounded-full text-xs font-bold tracking-wider mb-4 uppercase border border-cyan-500/30">
               <Award className="w-3.5 h-3.5" />
               <span>{t.nobleTitle}</span>
             </div>
@@ -157,7 +157,7 @@ export default function ScienceSection({ currentLang }: ScienceSectionProps) {
                 {t.nobleDesc}
               </p>
               <div className="text-xs text-slate-500 font-mono flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                 <span>Robert F. Furchgott | Louis J. Ignarro | Ferid Murad</span>
               </div>
             </div>
@@ -172,7 +172,7 @@ export default function ScienceSection({ currentLang }: ScienceSectionProps) {
             <div className="relative bg-white/[0.03] backdrop-blur-md rounded-3xl p-6 sm:p-8 border border-white/10 h-full flex flex-col overflow-hidden">
               <div className="space-y-4">
                 <h3 className="font-sans text-xl font-extrabold flex items-center gap-2.5">
-                  <Activity className="w-5.5 h-5.5 text-rose-400" />
+                  <Activity className="w-5.5 h-5.5 text-cyan-400" />
                   <span>{t.ageCalcTitle}</span>
                 </h3>
                 <p className="text-slate-400 text-xs sm:text-sm leading-relaxed font-semibold">
@@ -193,10 +193,10 @@ export default function ScienceSection({ currentLang }: ScienceSectionProps) {
                     initial={{ scale: 0.85, opacity: 0.6 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ type: 'spring', stiffness: 320, damping: 18 }}
-                    className="font-mono text-3xl font-black text-rose-300 bg-rose-500/10 px-4 py-1.5 rounded-xl border border-rose-500/30"
-                    style={{ textShadow: '0 0 14px rgba(244,63,94,0.5)' }}
+                    className="font-mono text-3xl font-black text-cyan-300 bg-cyan-500/10 px-4 py-1.5 rounded-xl border border-cyan-500/30"
+                    style={{ textShadow: '0 0 14px rgba(34,211,238,0.5)' }}
                   >
-                    {userAge} <span className="text-xs font-sans font-bold text-rose-400/80">{currentLang === 'en' ? 'yrs' : '岁'}</span>
+                    {userAge} <span className="text-xs font-sans font-bold text-cyan-400/80">{currentLang === 'en' ? 'yrs' : '岁'}</span>
                   </motion.span>
                 </div>
 
@@ -207,7 +207,7 @@ export default function ScienceSection({ currentLang }: ScienceSectionProps) {
                   step="1"
                   value={userAge}
                   onChange={(e) => updateAge(Number(e.target.value))}
-                  className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-rose-500 focus:outline-none"
+                  className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-cyan-500 focus:outline-none"
                 />
                 <div className="flex justify-between text-[10px] font-bold text-slate-500 font-mono px-1">
                   <span>Age 20</span><span>Age 40</span><span>Age 60</span><span>Age 80</span><span>Age 100</span>
@@ -518,12 +518,12 @@ function RouteCard({
     <div
       className={`relative rounded-2xl p-6 border overflow-hidden h-full ${
         isTherabo
-          ? 'bg-gradient-to-br from-rose-500/10 to-white/[0.02] border-rose-500/30'
+          ? 'bg-gradient-to-br from-cyan-500/10 to-white/[0.02] border-cyan-500/30'
           : 'bg-white/[0.02] border-white/10'
       }`}
     >
       {isTherabo && (
-        <div className="absolute top-0 right-0 p-2.5 text-[10px] font-mono font-black text-rose-300 bg-rose-500/15 rounded-bl-xl border-l border-b border-rose-500/30 flex items-center gap-1">
+        <div className="absolute top-0 right-0 p-2.5 text-[10px] font-mono font-black text-cyan-300 bg-cyan-500/15 rounded-bl-xl border-l border-b border-cyan-500/30 flex items-center gap-1">
           <Sparkles className="w-3 h-3" />
           RECOMMENDED
         </div>
@@ -536,17 +536,17 @@ function RouteCard({
           count={isTherabo ? 4 : 3}
           size={112}
           moleculeSize={22}
-          glow={isTherabo ? 'rose' : 'none'}
+          glow={isTherabo ? 'cyan' : 'none'}
           dim={!isTherabo}
         />
       </div>
 
       <div className="relative flex items-center gap-3 mb-4">
-        <div className={`p-2.5 rounded-xl ${isTherabo ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30' : 'bg-white/5 text-slate-400 border border-white/10'}`}>
+        <div className={`p-2.5 rounded-xl ${isTherabo ? 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30' : 'bg-white/5 text-slate-400 border border-white/10'}`}>
           {icon}
         </div>
         <div>
-          <h4 className={`text-[10px] font-bold uppercase tracking-widest leading-none ${isTherabo ? 'text-rose-300' : 'text-slate-400'}`}>
+          <h4 className={`text-[10px] font-bold uppercase tracking-widest leading-none ${isTherabo ? 'text-cyan-300' : 'text-slate-400'}`}>
             {label}
           </h4>
           <span className="text-base font-black text-white">{title}</span>
@@ -558,7 +558,7 @@ function RouteCard({
       <div className="relative border-t border-white/10 pt-4 space-y-2 text-xs font-bold text-slate-200">
         {bullets.map((b, i) => (
           <div key={i} className="flex items-center gap-2">
-            <span className={`w-1.5 h-1.5 rounded-full ${isTherabo ? 'bg-rose-400' : 'bg-slate-500'}`} style={isTherabo ? { boxShadow: '0 0 8px rgba(244,63,94,0.7)' } : undefined} />
+            <span className={`w-1.5 h-1.5 rounded-full ${isTherabo ? 'bg-cyan-400' : 'bg-slate-500'}`} style={isTherabo ? { boxShadow: '0 0 8px rgba(34,211,238,0.7)' } : undefined} />
             <span>{b}</span>
           </div>
         ))}
