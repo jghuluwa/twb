@@ -101,7 +101,7 @@ export default function AwardSection({ currentLang }: AwardSectionProps) {
               <div className="border-t border-white/10 pt-4 text-center mt-2">
                 <span className="inline-flex items-center justify-center gap-1.5 text-[10px] font-bold text-cyan-300 font-sans tracking-tight">
                   <Star className="w-3 h-3 fill-current shrink-0" />
-                  {currentLang === 'en' ? 'Test result: average NO Concentration ascended by 2.7x +' : '临床受试结论：使用一小时，群体受试者一氧化氮平均提升2.7x倍以上'}
+                  {currentLang === 'en' ? 'Test result: average NO Concentration ascended by 2.7x +' : '第三方检测结论：使用一小时，群体受试者一氧化氮平均提升约 2.7 倍'}
                 </span>
               </div>
 
@@ -124,7 +124,7 @@ export default function AwardSection({ currentLang }: AwardSectionProps) {
               <div className="flex items-center space-x-2.5">
                 <FileText className="w-5.5 h-5.5 text-amber-500" />
                 <h3 className="font-sans text-xl font-bold text-white">
-                  {currentLang === 'en' ? 'Innovation Cup Winner' : '国家级奖项与证书证件'}
+                  {currentLang === 'en' ? 'Innovation Cup Winner' : '行业奖项与资质证书'}
                 </h3>
               </div>
               <p className="text-slate-400 text-xs sm:text-sm leading-relaxed font-semibold">

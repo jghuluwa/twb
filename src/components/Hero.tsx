@@ -210,7 +210,7 @@ export default function Hero({ currentLang, onExplore, onScience }: HeroProps) {
             <div className="grid grid-cols-3 gap-6 max-w-md border-t border-white/10 pt-6">
               <Stat value="200%+" label={currentLang === 'en' ? 'NO after 1 hr' : '理疗后 NO 提升'} />
               <Stat value="25–43" label="THz resonance" />
-              <Stat value="ISO" label={currentLang === 'en' ? 'Certified lab' : '国家级实验室'} />
+              <Stat value="ISO" label={currentLang === 'en' ? 'Certified lab' : '第三方实验室'} />
             </div>
           </Reveal>
         </div>

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Language, Product } from './types';
 import { CustomerAccount } from './admin/types';
-import { currentCustomer, subscribeCustomerSession, trackPageView } from './admin/store';
+import { currentCustomer, subscribeCustomerSession, trackPageView, listProducts, subscribe as subscribeStore } from './admin/store';
 import { useCart } from './hooks/useCart';
-import { useStorefrontView } from './hooks/useStorefrontView';
+import { useRouter } from './hooks/useRouter';
 import { useCommerceConfig } from './hooks/useCommerceConfig';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -22,17 +22,18 @@ import PromotionOverlay from './components/PromotionOverlay';
 import CookieBanner from './components/CookieBanner';
 import PageView from './components/PageView';
 import ContactSection from './components/ContactSection';
+import { applyDefaultMeta, applyProductMeta, applyNoindexMeta, removeProductJsonLd } from './lib/seo';
+import { Route } from './lib/router';
 
 export default function App() {
-  const [currentLang, setCurrentLang] = useState<Language>('zh');
-  const [currency, setCurrency] = useState<'USD' | 'CNY'>('CNY');
-  const [activeProduct, setActiveProduct] = useState<Product | null>(null);
-  const [activePageSlug, setActivePageSlug] = useState<string | null>(null);
+  const { route, navigate } = useRouter();
+  const currentLang = route.lang;
+  const [currency, setCurrency] = useState<'USD' | 'CNY'>(route.lang === 'en' ? 'USD' : 'CNY');
+  const [products, setProducts] = useState<Product[]>(() => listProducts());
   const [customer, setCustomer] = useState<CustomerAccount | null>(currentCustomer());
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<'login' | 'register'>('login');
-  const catalogScrollPosition = useRef(Number(sessionStorage.getItem('therabo:catalog-scroll') || 0));
-  const activeProductRef = useRef<Product | null>(null);
+  const prevViewRef = useRef<Route['view']>(route.view);
   const {
     cartItems,
     cartOpen,
@@ -44,8 +45,16 @@ export default function App() {
     toggleCart,
     totalCartCount
   } = useCart();
-  const { view, goHome, goAccount } = useStorefrontView();
   const { shoppingEnabled, showPrices } = useCommerceConfig();
+
+  // Derive the visible view from the URL (single source of truth).
+  const activeProduct =
+    route.view === 'product' ? products.find((p) => p.id === route.productId) ?? null : null;
+  const activePageSlug = route.view === 'page' ? route.pageSlug ?? null : null;
+  const view: 'home' | 'account' = route.view === 'account' ? 'account' : 'home';
+
+  // Keep the derived product list in sync with the admin store.
+  useEffect(() => subscribeStore(() => setProducts(listProducts())), []);
 
   // Subscribe to customer session changes (login, logout, profile updates)
   useEffect(() => {
@@ -57,26 +66,39 @@ export default function App() {
     trackPageView(window.location.pathname + window.location.hash, currentLang).catch(() => undefined);
   }, [currentLang]);
 
+  // Keep <title>, meta description, canonical, hreflang and social cards in
+  // sync as the SPA navigates — crawlers render JS, so per-view meta + the
+  // server-side injection together cover both rendering and no-JS bots.
   useEffect(() => {
-    activeProductRef.current = activeProduct;
-  }, [activeProduct]);
+    if (activeProduct) {
+      applyProductMeta(activeProduct, route);
+      return;
+    }
+    removeProductJsonLd();
+    if (view === 'account') {
+      applyNoindexMeta(route);
+    } else {
+      applyDefaultMeta(route);
+    }
+  }, [activeProduct, activePageSlug, view, route]);
 
+  // Scroll management on route changes: product/page open at the top; returning
+  // to the catalog (via the back button or browser back) restores its position.
   useEffect(() => {
-    const previous = window.history.scrollRestoration;
     window.history.scrollRestoration = 'manual';
-    const restoreCatalogPosition = () => {
-      if (!activeProductRef.current) return;
-      setActiveProduct(null);
+    const prev = prevViewRef.current;
+    if (prev === 'product' && route.view === 'home') {
+      const y = Number(sessionStorage.getItem('therabo:catalog-scroll') || 0);
       requestAnimationFrame(() => requestAnimationFrame(() => {
-        window.scrollTo({ top: catalogScrollPosition.current, behavior: 'instant' });
+        window.scrollTo({ top: y, behavior: 'instant' });
       }));
-    };
-    window.addEventListener('popstate', restoreCatalogPosition);
-    return () => {
-      window.history.scrollRestoration = previous;
-      window.removeEventListener('popstate', restoreCatalogPosition);
-    };
-  }, []);
+    } else if (route.view === 'product' || route.view === 'page' || route.view === 'account') {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
+    prevViewRef.current = route.view;
+  }, [route]);
+
+  const goHome = () => navigate({ lang: currentLang, view: 'home' });
 
   const handleAccountClick = () => {
     if (!customer) {
@@ -84,7 +106,7 @@ export default function App() {
       setAuthOpen(true);
       return;
     }
-    goAccount();
+    navigate({ lang: currentLang, view: 'account' });
   };
 
   const openLogin = (mode: 'login' | 'register' = 'login') => {
@@ -92,44 +114,35 @@ export default function App() {
     setAuthOpen(true);
   };
 
-  // Sync initial currency with language for logical defaults
+  // Switching language keeps the current page but swaps the URL's lang segment
+  // (so /en/product/x ↔ /zh/product/x), and resets the currency default.
   const handleLangChange = (lang: Language) => {
-    setCurrentLang(lang);
-    if (lang === 'en') {
-      setCurrency('USD');
-    } else {
-      setCurrency('CNY');
-    }
+    navigate({ ...route, lang });
+    setCurrency(lang === 'en' ? 'USD' : 'CNY');
   };
 
   const handleScrollTo = (sectionId: string) => {
-    if (view === 'account') goHome();
-    setActiveProduct(null);
+    if (route.view !== 'home') navigate({ lang: currentLang, view: 'home' });
     setTimeout(() => {
-      const el = document.getElementById(sectionId);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
+    }, route.view !== 'home' ? 160 : 100);
   };
 
   const handleSelectProduct = (product: Product) => {
-    catalogScrollPosition.current = window.scrollY;
     sessionStorage.setItem('therabo:catalog-scroll', String(window.scrollY));
-    window.history.pushState({ theraboProduct: product.id }, '', `#product/${encodeURIComponent(product.id)}`);
-    setActiveProduct(product);
+    navigate({ lang: currentLang, view: 'product', productId: product.id });
   };
 
   const handleBackToCatalog = () => {
-    if (window.history.state?.theraboProduct) {
+    if (window.history.state?.therabo) {
       window.history.back();
       return;
     }
-    setActiveProduct(null);
-    requestAnimationFrame(() => requestAnimationFrame(() => {
-      window.scrollTo({ top: catalogScrollPosition.current, behavior: 'instant' });
-    }));
+    navigate({ lang: currentLang, view: 'home' });
   };
+
+  const handleOpenPage = (slug: string) =>
+    navigate({ lang: currentLang, view: 'page', pageSlug: slug });
 
   return (
     <div className="min-h-screen bg-[#04060d] text-white relative overflow-x-hidden">
@@ -155,7 +168,7 @@ export default function App() {
 
       <main>
         {activePageSlug ? (
-          <PageView slug={activePageSlug} currentLang={currentLang} onBack={() => setActivePageSlug(null)} />
+          <PageView slug={activePageSlug} currentLang={currentLang} onBack={goHome} />
         ) : view === 'account' ? (
           <AccountPage
             currentLang={currentLang}
@@ -225,10 +238,10 @@ export default function App() {
       <Footer
         currentLang={currentLang}
         onScrollTo={handleScrollTo}
-        onOpenPage={(slug) => { setActivePageSlug(slug); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+        onOpenPage={handleOpenPage}
       />
 
-      <CookieBanner currentLang={currentLang} onOpenPrivacy={() => setActivePageSlug('privacy')} />
+      <CookieBanner currentLang={currentLang} onOpenPrivacy={() => handleOpenPage('privacy')} />
     </div>
   );
 }

@@ -472,7 +472,7 @@ export default function ScienceSection({ currentLang }: ScienceSectionProps) {
               desc={t.techRouteTheraboDesc}
               bullets={currentLang === 'en'
                 ? ['Natural endogenous synthesis', 'Targets specific local pain zones', 'Never decays with repeated use']
-                : ['激发自体细胞量能，安全温和生发', '无缝贴合所需部位，定向起效', '纯物理穿戴，反复水洗不损物理疗力']
+                : ['激发自体细胞能量，温和释放一氧化氮', '无缝贴合所需部位，定向作用', '纯物理穿戴，反复水洗不减性能']
               }
             />
           </Reveal>

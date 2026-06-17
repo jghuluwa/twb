@@ -1,0 +1,31 @@
+# Therabo 通微宝 — Nitric Oxide Wearable Therapy Clothing
+
+> Therabo (通微宝) is a brand of nitric oxide wearable therapy clothing made with PHOTEX terahertz bio-resonance fabric (25–43THz) that helps stimulate the body's own (endogenous) nitric oxide release to support local microcirculation. The products are textile wearables — drug-free, hormone-free and machine washable. Made by Beijing Zhongke Medical Materials Co., Ltd. (北京中科医用材料有限公司).
+
+## Core mechanism (plain facts)
+
+- Nitric oxide (NO) is a signaling molecule released by the vascular endothelium that supports vessel dilation and tissue oxygenation. Its cardiovascular signaling role won the 1998 Nobel Prize in Physiology or Medicine.
+- PHOTEX fabric emits low-energy terahertz waves (25–43THz) that support the endothelial NO synthase (eNOS) pathway, so the body releases its own nitric oxide rather than relying on external supplements.
+- Third-party testing (Beijing Jinlai laboratory): tested-site NO concentration rose from ~5.2 µmol/L before wear to ~14.1 µmol/L after one hour of wear.
+- The effect is purely physical; the fabric contains no pharmaceutical ingredients and is not a drug or a medical device.
+
+## Product collections
+
+- Rehabilitation supports — knee, waist and neck supports for post-exercise recovery and joint microcirculation.
+- Health underwear — everyday PHOTEX-fabric base layers.
+- Advanced specialties — targeted PHOTEX wearables for specific use cases.
+
+## Key URLs
+
+- [Homepage (English)](https://therabo.com/en/)
+- [Homepage (简体中文)](https://therabo.com/zh/)
+- [Products / catalog](https://therabo.com/en/#products)
+- [Science & technology](https://therabo.com/en/#science)
+- [Clinical awards](https://therabo.com/en/#awards)
+- [Sitemap](https://therabo.com/sitemap.xml)
+- [Full LLM document](https://therabo.com/llms-full.txt)
+
+## Contact
+
+- Email: liufei@therabo.top
+- Phone: +86 400-901-0913

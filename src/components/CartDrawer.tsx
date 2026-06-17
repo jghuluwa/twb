@@ -550,7 +550,10 @@ export default function CartDrawer({
                     </p>
                     <img
                       src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(wechatQr)}`}
-                      alt="WeChat Pay QR"
+                      alt={currentLang === 'en' ? 'WeChat Pay QR code' : '微信支付二维码'}
+                      width={200}
+                      height={200}
+                      loading="lazy"
                       className="mx-auto rounded-lg border border-white/15"
                     />
                     <p className="text-[10px] text-slate-400 font-bold">

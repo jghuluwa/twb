@@ -561,7 +561,7 @@ export default function ProductCatalog({ currentLang, currency, onAddToCart, onS
                   {/* Certified badge check */}
                   <div className="border-t border-white/10 pt-3 mt-3 flex items-center space-x-2 text-[10px] font-bold text-cyan-300">
                     <BadgeCheck className="w-4.5 h-4.5 text-cyan-400" />
-                    <span>北京晶莱国家级实验中心 2倍生发认证</span>
+                    <span>北京晶莱第三方实验中心 NO 提升约 2 倍检测</span>
                   </div>
                 </div>
 

@@ -1,0 +1,70 @@
+# Therabo 通微宝 — Nitric Oxide Wearable Therapy Clothing (Full Reference)
+
+> Therabo (通微宝) is a brand of nitric oxide wearable therapy clothing made with PHOTEX terahertz bio-resonance fabric. This document is a clean, JS-free reference for language models and AI search engines. Source of truth: https://therabo.com
+
+## 1. What Therabo is
+
+Therabo is a line of functional textile wearables (clothing and supports), not a drug and not a medical device. Each product is woven with PHOTEX terahertz bio-resonance fabric that emits low-energy resonance waves in the 25–43THz band. These waves help stimulate the body's own (endogenous) nitric oxide release via the endothelial nitric oxide synthase (eNOS) pathway, which in turn supports local blood microcirculation. The products are drug-free, hormone-free, contain no pharmaceutical coatings, and are machine washable and reusable.
+
+Manufacturer: Beijing Zhongke Medical Materials Co., Ltd. (北京中科医用材料有限公司), Beijing, China.
+
+## 2. The science of nitric oxide and microcirculation
+
+- Nitric oxide (NO) is a small signaling molecule produced by the vascular endothelium. It relaxes vascular smooth muscle, supporting vessel dilation, blood flow and tissue oxygenation.
+- The 1998 Nobel Prize in Physiology or Medicine was awarded for the discovery of nitric oxide as a signaling molecule in the cardiovascular system.
+- Endogenous (self-produced) nitric oxide synthesis capacity tends to decline with age, which is associated with reduced microcirculation.
+- Therabo's approach is endogenous stimulation (helping the body produce its own NO) rather than exogenous supplementation (oral pills, gases or nitrate drugs).
+
+## 3. PHOTEX terahertz fabric — technical parameters
+
+- Emission band: 25–43THz low-energy terahertz / far-infrared resonance.
+- Mechanism: physical resonance supporting the eNOS pathway; no chemicals or drugs are involved.
+- Third-party test (Beijing Jinlai laboratory): average tested-site NO concentration ~5.2 µmol/L before wear and ~14.1 µmol/L after one hour of continuous wear.
+- Durability: purely physical fabric structure; effect does not wash out, so garments are washable and reusable.
+
+## 4. Product collections
+
+### Rehabilitation supports (康复护具系列)
+Knee, waist and neck supports designed for post-exercise recovery, sedentary users, and people who want to support joint and soft-tissue microcirculation. Examples include the NO Active Sport Knee Sleeve and waist/neck supports.
+
+### Health underwear (健康内衣系列)
+Everyday base layers made from PHOTEX fabric for continuous, low-effort daily wear.
+
+### Advanced specialties (专用调理系列)
+Targeted PHOTEX wearables for specific body areas and use cases.
+
+All collections share the same PHOTEX fabric platform and differ by body area and form factor.
+
+## 5. Frequently asked questions
+
+Q: Is Therabo a drug or a medical device?
+A: No. Therabo is functional textile apparel. It uses physical fabric technology to support microcirculation, contains no drugs, and does not replace any medication or medical treatment.
+
+Q: How does the clothing work?
+A: PHOTEX fabric emits 25–43THz terahertz resonance waves that help stimulate the body's own nitric oxide release, which supports local blood microcirculation.
+
+Q: Is it washable?
+A: Yes. The fabric is a purely physical structure and can be machine washed and reused.
+
+Q: Who should use it, and who should be cautious?
+A: It suits people in post-exercise recovery, those with sedentary routines, and anyone wanting to support everyday local microcirculation. Pregnant users, people with implanted electronic medical devices, or those with specific health conditions should consult a doctor before use.
+
+## 6. Compliance note
+
+Therabo is marketed as a functional textile / wearable product. Claims are limited to supporting microcirculation and helping stimulate the body's own nitric oxide release. Therabo does not claim to cure, treat or prevent any disease.
+
+## 7. Key URLs
+
+- Homepage (English): https://therabo.com/en/
+- Homepage (Simplified Chinese): https://therabo.com/zh/
+- Homepage (Traditional Chinese): https://therabo.com/zh-tw/
+- Products / catalog: https://therabo.com/en/#products
+- Science & technology: https://therabo.com/en/#science
+- Clinical awards: https://therabo.com/en/#awards
+- Sitemap: https://therabo.com/sitemap.xml
+
+## 8. Contact
+
+- Email: liufei@therabo.top
+- Phone: +86 400-901-0913
+- Company: Beijing Zhongke Medical Materials Co., Ltd. (北京中科医用材料有限公司)

@@ -141,16 +141,16 @@ export default function AboutAndReviews({ currentLang }: AboutAndReviewsProps) {
                     <p className="text-[11px] leading-relaxed text-slate-400 font-semibold font-sans">
                       {currentLang === 'en' 
                         ? 'Converting complex Nobel Prize-winning vascular science into daily wearable fabrics. Activating endogenous eNOS enzymes without relying on external medicines.'
-                        : '将1998年诺贝尔生理学医学奖关于血管内皮舒张机制的突破性理论，进行安全可穿戴产业化转化。激发脏器及末梢组织产生自体一氧化氮，绝无药物副反应。'}
+                        : '将1998年诺贝尔生理学医学奖关于血管内皮舒张机制的科学理论，进行可穿戴产业化转化。辅助末梢组织释放自体一氧化氮，纯物理科技、无药物添加。'}
                     </p>
                   </div>
 
                   <div className="p-3.5 bg-white/[0.04] border border-white/10 rounded-2xl space-y-1 hover:border-cyan-400/40 transition-colors">
-                    <span className="font-sans text-cyan-300 text-[11px] block">03 / {currentLang === 'en' ? 'National Clinical & Quality Standards' : '国家级多中心临床验证'}</span>
+                    <span className="font-sans text-cyan-300 text-[11px] block">03 / {currentLang === 'en' ? 'Multi-center Quality Validation' : '多中心检测验证'}</span>
                     <p className="text-[11px] leading-relaxed text-slate-400 font-semibold font-sans">
-                      {currentLang === 'en' 
-                        ? 'Each product undergoes multi-center volunteer efficacy validation, strictly monitoring blood flow rate and capillary dilation to ensure evidence-based health.'
-                        : '联合国内三甲医疗机构与临床中心开展科学受试，全线穿戴装备均经过严格的多样本血液微循环流速测试与一氧化氮浓度升高验证。'}
+                      {currentLang === 'en'
+                        ? 'Each product undergoes multi-center volunteer testing that monitors blood flow rate and capillary dilation for lab-tested, evidence-grounded performance.'
+                        : '联合第三方检测机构开展样本测试，全线穿戴装备均经过多样本血液微循环流速与一氧化氮浓度检测。'}
                     </p>
                   </div>
                 </div>
