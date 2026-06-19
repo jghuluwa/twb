@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Trash2, Download } from 'lucide-react';
+import { Trash2, Download, Check, X } from 'lucide-react';
 import { listSubscribers, deleteSubscriber, downloadCsv, type Subscriber } from './store';
 
 export default function SubscribersManager() {
@@ -45,7 +45,7 @@ export default function SubscribersManager() {
                 <td className="px-5 py-3 font-extrabold">{s.email}</td>
                 <td className="px-5 py-3 text-xs">{s.language || '—'}</td>
                 <td className="px-5 py-3 text-xs">{s.source || '—'}</td>
-                <td className="px-5 py-3 text-center text-xs font-black">{s.unsubscribed ? '✗' : '✓'}</td>
+                <td className="px-5 py-3 text-xs font-black">{s.unsubscribed ? <X className="w-4 h-4 mx-auto text-rose-500" /> : <Check className="w-4 h-4 mx-auto text-emerald-600" />}</td>
                 <td className="px-5 py-3 text-right text-xs text-slate-500">{new Date(s.created_at).toLocaleString()}</td>
                 <td className="px-5 py-3 text-right">
                   <button onClick={() => { if (confirm('删除该订阅者？')) deleteSubscriber(s.email).then(refresh); }}

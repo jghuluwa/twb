@@ -65,22 +65,23 @@ export default function PromotionOverlay({ currentLang }: { currentLang: Languag
       {popup && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
           <div onClick={dismissPopup} className="absolute inset-0 bg-slate-950/70 backdrop-blur-sm" />
-          <div className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden">
+          <div className="relative bg-[#0a0f1d] text-white border border-white/10 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden">
             <button onClick={dismissPopup}
-              className="absolute top-3 right-3 z-10 p-1.5 bg-white/80 hover:bg-white rounded-full text-slate-600 cursor-pointer">
+              className="absolute top-3 right-3 z-10 p-1.5 bg-black/40 hover:bg-black/60 border border-white/10 rounded-full text-slate-300 hover:text-white cursor-pointer">
               <X className="w-4 h-4" />
             </button>
             {popup.imageUrl && (
               <img src={popup.imageUrl} alt="" className="w-full h-48 object-cover" />
             )}
             <div className="p-6 space-y-3 text-center">
-              <h3 className="text-xl font-extrabold text-slate-900">{popup.title[currentLang] || popup.title.zh || popup.title.en}</h3>
-              <p className="text-sm font-bold text-slate-600 whitespace-pre-line">{popup.body[currentLang] || popup.body.zh || popup.body.en}</p>
+              <h3 className="text-xl font-extrabold text-white">{popup.title[currentLang] || popup.title.zh || popup.title.en}</h3>
+              <p className="text-sm font-bold text-slate-300 whitespace-pre-line">{popup.body[currentLang] || popup.body.zh || popup.body.en}</p>
               {popup.ctaUrl && popup.ctaLabel && (
                 <a
                   href={popup.ctaUrl}
                   onClick={dismissPopup}
-                  className="inline-block bg-rose-600 hover:bg-rose-700 text-white font-extrabold text-xs uppercase tracking-wider px-6 py-3 rounded-xl mt-2"
+                  className="inline-block text-[#04060d] font-extrabold text-xs uppercase tracking-wider px-6 py-3 rounded-xl mt-2 hover:brightness-110"
+                  style={{ background: 'linear-gradient(120deg, #38BDF8, #22D3EE)' }}
                 >
                   {popup.ctaLabel[currentLang] || popup.ctaLabel.zh || popup.ctaLabel.en}
                 </a>

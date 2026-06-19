@@ -91,8 +91,8 @@
   background: linear-gradient(90deg,
     transparent 0%,
     rgba(34, 211, 238, 0.85) 25%,
-    rgba(225, 29, 72, 0.9)   50%,
-    rgba(167, 139, 250, 0.7) 75%,
+    rgba(56, 189, 248, 0.95) 50%,
+    rgba(186, 230, 253, 0.7) 75%,
     transparent 100%);
   background-size: 200% 100%;
   animation: flow-stream 3.6s linear infinite;

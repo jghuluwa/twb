@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, Edit2, Trash2, Save, X, Truck } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, Truck, Check } from 'lucide-react';
 import { listShippingMethods, upsertShippingMethod, deleteShippingMethod, type ShippingMethod } from './store';
 import { Language } from '../types';
 
@@ -54,7 +54,7 @@ export default function ShippingManager() {
                 <td className="px-5 py-3 text-right font-mono font-black">{s.flatFee}</td>
                 <td className="px-5 py-3 text-right font-mono text-xs">{s.freeThreshold ?? '—'}</td>
                 <td className="px-5 py-3 text-center text-xs">{s.estDays || '—'}</td>
-                <td className="px-5 py-3 text-center text-xs font-black">{s.enabled ? '✓' : '✗'}</td>
+                <td className="px-5 py-3 text-xs font-black">{s.enabled ? <Check className="w-4 h-4 mx-auto text-emerald-600" /> : <X className="w-4 h-4 mx-auto text-slate-400" />}</td>
                 <td className="px-5 py-3 text-right">
                   <button onClick={() => setEditing({ s: { ...s }, isNew: false })} className="p-1.5 text-sky-600 hover:bg-sky-50 rounded cursor-pointer"><Edit2 className="w-4 h-4" /></button>
                   <button onClick={() => { if (confirm('删除该运费规则？')) deleteShippingMethod(s.id).then(refresh); }}

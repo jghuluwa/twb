@@ -44,11 +44,12 @@ export default function NewsletterSignup({ currentLang }: { currentLang: Languag
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder={t.ph}
-              className="w-full pl-9 pr-3 py-2 text-xs font-bold bg-slate-800 border border-slate-700 rounded-lg text-white focus:outline-none focus:border-rose-400"
+              className="w-full pl-9 pr-3 py-2 text-xs font-bold bg-white/5 border border-white/15 rounded-lg text-white placeholder:text-slate-500 focus:outline-none focus:border-cyan-400"
             />
           </div>
           <button type="submit" disabled={busy}
-            className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-extrabold uppercase tracking-wider px-3 py-2 rounded-lg cursor-pointer disabled:opacity-60">
+            className="text-[#04060d] text-xs font-extrabold uppercase tracking-wider px-3 py-2 rounded-lg cursor-pointer disabled:opacity-60 hover:brightness-110"
+            style={{ background: 'linear-gradient(120deg, #38BDF8, #22D3EE)' }}>
             {t.cta}
           </button>
         </form>

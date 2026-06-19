@@ -46,19 +46,21 @@ export default function ContactSection({ currentLang }: { currentLang: Language 
 
   const field = (key: keyof typeof form, placeholder: string, type = 'text') => (
     <input type={type} required value={form[key]} onChange={(event) => setForm({ ...form, [key]: event.target.value })}
-      placeholder={placeholder} className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none transition focus:border-rose-400 focus:ring-4 focus:ring-rose-100" />
+      placeholder={placeholder} className="w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white placeholder:text-slate-500 outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20" />
   );
 
   return (
     <>
-      <section id="contact" className="relative overflow-hidden bg-slate-950 py-14 text-white sm:py-16">
-        <div className="absolute inset-0 dot-grid-dark opacity-25" />
+      <section id="contact" className="relative overflow-hidden py-16 text-white sm:py-20">
+        <div className="absolute inset-0 dot-grid-dark opacity-20" />
+        <div className="absolute top-0 left-0 right-0 h-px flow-stream-bar opacity-70" />
         <Reveal as="div" className="relative mx-auto flex max-w-4xl flex-col items-center px-4 text-center sm:px-6">
           <p className="text-[10px] font-black tracking-[0.22em] text-cyan-300">{t.contactEyebrow}</p>
           <h2 className="mt-3 text-2xl font-extrabold leading-tight sm:text-3xl">{t.contactTitle}</h2>
           <p className="mt-3 max-w-2xl text-sm font-semibold leading-relaxed text-slate-400">{t.contactBody}</p>
           <button onClick={() => { setOpen(true); setSent(false); setError(''); }}
-            className="mt-6 flex items-center gap-2 rounded-xl bg-rose-600 px-6 py-3.5 text-sm font-extrabold text-white shadow-lg shadow-rose-950/30 transition hover:bg-rose-500">
+            className="mt-6 flex items-center gap-2 rounded-xl px-6 py-3.5 text-sm font-extrabold text-[#04060d] transition hover:brightness-110 cursor-pointer"
+            style={{ background: 'linear-gradient(120deg, #BAE6FD, #38BDF8 55%, #22D3EE)', boxShadow: '0 14px 40px -12px rgba(34,211,238,0.6)' }}>
             {t.contactSubmit}<ArrowRight className="h-4 w-4" />
           </button>
         </Reveal>
@@ -66,19 +68,19 @@ export default function ContactSection({ currentLang }: { currentLang: Language 
 
       {open && (
         <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/70 p-4 backdrop-blur-sm" onClick={() => setOpen(false)}>
-          <div className="max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-3xl bg-white p-5 shadow-2xl sm:p-7" onClick={(event) => event.stopPropagation()}>
+          <div className="max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-3xl bg-[#0a0f1d] text-white border border-white/10 p-5 shadow-2xl sm:p-7" onClick={(event) => event.stopPropagation()}>
             <div className="mb-5 flex items-center justify-between">
               <div>
-                <p className="text-[10px] font-black tracking-widest text-rose-600">{t.contactEyebrow}</p>
-                <h3 className="mt-1 text-xl font-extrabold text-slate-950">{labels.title}</h3>
+                <p className="text-[10px] font-black tracking-widest text-cyan-300">{t.contactEyebrow}</p>
+                <h3 className="mt-1 text-xl font-extrabold text-white">{labels.title}</h3>
               </div>
-              <button onClick={() => setOpen(false)} className="rounded-full bg-slate-100 p-2 text-slate-500" aria-label={labels.close}><X className="h-5 w-5" /></button>
+              <button onClick={() => setOpen(false)} className="rounded-full bg-white/10 p-2 text-slate-300 hover:text-white transition-colors cursor-pointer" aria-label={labels.close}><X className="h-5 w-5" /></button>
             </div>
 
             {sent ? (
-              <div className="grid min-h-64 place-items-center text-center text-slate-900">
-                <div><CheckCircle2 className="mx-auto h-12 w-12 text-emerald-500" /><p className="mt-4 font-extrabold">{t.contactSent}</p>
-                  <button type="button" onClick={() => setSent(false)} className="mt-5 text-xs font-bold text-rose-600">{labels.again}</button>
+              <div className="grid min-h-64 place-items-center text-center text-white">
+                <div><CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" /><p className="mt-4 font-extrabold">{t.contactSent}</p>
+                  <button type="button" onClick={() => setSent(false)} className="mt-5 text-xs font-bold text-cyan-300 cursor-pointer">{labels.again}</button>
                 </div>
               </div>
             ) : (
@@ -90,9 +92,10 @@ export default function ContactSection({ currentLang }: { currentLang: Language 
                   {field('email', t.contactEmail, 'email')}
                 </div>
                 <textarea required rows={4} value={form.intent} onChange={(event) => setForm({ ...form, intent: event.target.value })} placeholder={t.contactIntent}
-                  className="mt-3 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-900 outline-none transition focus:border-rose-400 focus:ring-4 focus:ring-rose-100" />
-                {error && <p className="mt-3 text-xs font-bold text-rose-600">{error}</p>}
-                <button disabled={busy} className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-rose-600 px-5 py-3.5 text-sm font-extrabold text-white hover:bg-rose-700 disabled:opacity-60">
+                  className="mt-3 w-full rounded-xl border border-white/15 bg-white/5 px-4 py-3 text-sm font-semibold text-white placeholder:text-slate-500 outline-none transition focus:border-cyan-400 focus:ring-4 focus:ring-cyan-500/20" />
+                {error && <p className="mt-3 text-xs font-bold text-rose-400">{error}</p>}
+                <button disabled={busy} className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-sm font-extrabold text-[#04060d] hover:brightness-110 disabled:opacity-60 cursor-pointer"
+                  style={{ background: 'linear-gradient(120deg, #BAE6FD, #38BDF8 55%, #22D3EE)' }}>
                   <Send className="h-4 w-4" />{t.contactSubmit}
                 </button>
               </form>

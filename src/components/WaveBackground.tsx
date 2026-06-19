@@ -64,8 +64,8 @@ export default function WaveBackground() {
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <defs>
             <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#F43F5E" />
-              <stop offset="50%" stopColor="#F59E0B" />
+              <stop offset="0%" stopColor="#22D3EE" />
+              <stop offset="50%" stopColor="#38BDF8" />
               <stop offset="100%" stopColor="#0EA5E9" />
             </linearGradient>
           </defs>
@@ -116,7 +116,7 @@ export default function WaveBackground() {
               transition: 'transform 800ms cubic-bezier(0.22, 1, 0.36, 1)'
             }}
           >
-            <Molecule size={m.size} glow="rose" opacity={0.9} />
+            <Molecule size={m.size} glow="cyan" opacity={0.9} />
           </div>
         );
       })}

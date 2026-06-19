@@ -120,23 +120,23 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0, y: 12 }}
         transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-        className="relative z-10 bg-white w-full max-w-md rounded-3xl shadow-2xl border-2 border-slate-100 overflow-hidden"
+        className="relative z-10 bg-[#0a0f1d] text-white w-full max-w-md rounded-3xl shadow-2xl border border-white/10 overflow-hidden"
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-rose-600 flex items-center justify-center text-white">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-sky-500 flex items-center justify-center text-[#04060d]">
               {mode === 'login' ? <LogIn className="w-4.5 h-4.5" /> : <UserPlus className="w-4.5 h-4.5" />}
             </div>
             <div>
-              <h3 className="font-extrabold text-slate-900 text-base leading-tight">
+              <h3 className="font-extrabold text-white text-base leading-tight">
                 {mode === 'login' ? t.loginTitle : t.registerTitle}
               </h3>
-              <p className="text-[11px] font-bold text-slate-500 mt-0.5">
+              <p className="text-[11px] font-bold text-slate-400 mt-0.5">
                 {mode === 'login' ? t.loginSub : t.registerSub}
               </p>
             </div>
           </div>
-          <button onClick={onClose} className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg cursor-pointer">
+          <button onClick={onClose} className="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg cursor-pointer">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -148,7 +148,7 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-transparent text-sm font-bold text-slate-800 focus:outline-none"
+                className="w-full bg-transparent text-sm font-bold text-white placeholder:text-slate-500 focus:outline-none"
                 placeholder={currentLang === 'en' ? 'Jane Doe' : '请输入姓名'}
               />
             </Field>
@@ -159,7 +159,7 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-transparent text-sm font-bold text-slate-800 focus:outline-none"
+              className="w-full bg-transparent text-sm font-bold text-white placeholder:text-slate-500 focus:outline-none"
               placeholder="you@email.com"
               autoComplete="email"
             />
@@ -170,7 +170,7 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-transparent text-sm font-bold text-slate-800 focus:outline-none"
+              className="w-full bg-transparent text-sm font-bold text-white placeholder:text-slate-500 focus:outline-none"
               placeholder={mode === 'register' ? (currentLang === 'en' ? '6+ characters' : '至少 6 位') : '••••••'}
               autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
               minLength={6}
@@ -183,7 +183,7 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
                 <input
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-transparent text-sm font-bold text-slate-800 focus:outline-none"
+                  className="w-full bg-transparent text-sm font-bold text-white placeholder:text-slate-500 focus:outline-none"
                   placeholder="+86 138…"
                 />
               </Field>
@@ -191,7 +191,7 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
                 <input
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="w-full bg-transparent text-sm font-bold text-slate-800 focus:outline-none"
+                  className="w-full bg-transparent text-sm font-bold text-white placeholder:text-slate-500 focus:outline-none"
                   placeholder={currentLang === 'en' ? 'United States' : '中国'}
                 />
               </Field>
@@ -199,7 +199,7 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
           )}
 
           {error && (
-            <p className="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-2 rounded-lg">
+            <p className="text-xs font-bold text-rose-300 bg-rose-500/10 border border-rose-500/30 px-3 py-2 rounded-lg">
               {error}
             </p>
           )}
@@ -207,17 +207,18 @@ export default function AuthModal({ currentLang, isOpen, initialMode = 'login', 
           <button
             type="submit"
             disabled={busy}
-            className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-rose-600 disabled:opacity-60 text-white font-extrabold text-xs uppercase tracking-wider py-3.5 rounded-xl transition-all cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 disabled:opacity-60 text-[#04060d] font-extrabold text-xs uppercase tracking-wider py-3.5 rounded-xl transition-all cursor-pointer hover:brightness-110"
+            style={{ background: 'linear-gradient(120deg, #BAE6FD, #38BDF8 55%, #22D3EE)' }}
           >
             {busy ? t.submitting : (mode === 'login' ? t.signIn : t.register)}
           </button>
 
-          <p className="text-xs text-center text-slate-500 font-bold">
+          <p className="text-xs text-center text-slate-400 font-bold">
             {mode === 'login' ? t.toRegister : t.toLogin}{' '}
             <button
               type="button"
               onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(null); }}
-              className="text-rose-600 hover:text-rose-700 underline cursor-pointer"
+              className="text-cyan-300 hover:text-cyan-200 underline cursor-pointer"
             >
               {mode === 'login' ? t.registerLink : t.loginLink}
             </button>
@@ -241,7 +242,7 @@ function Field({ icon, label, children }: { icon: ReactNode; label: string; chil
   return (
     <label className="block">
       <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 block">{label}</span>
-      <div className="flex items-center gap-2 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2.5 focus-within:border-rose-400 transition-colors">
+      <div className="flex items-center gap-2 bg-white/5 border border-white/15 rounded-lg px-3 py-2.5 focus-within:border-cyan-400 transition-colors">
         <span className="text-slate-400">{icon}</span>
         {children}
       </div>

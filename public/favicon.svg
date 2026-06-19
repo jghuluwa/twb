@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Therabo">
+  <defs>
+    <linearGradient id="t" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <radialGradient id="g" cx="0.5" cy="0.35" r="0.7">
+      <stop offset="0" stop-color="#0B1120"/>
+      <stop offset="1" stop-color="#04060d"/>
+    </radialGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="url(#g)"/>
+  <rect x="1" y="1" width="62" height="62" rx="13" fill="none" stroke="#22D3EE" stroke-opacity="0.25"/>
+  <!-- T monogram -->
+  <path d="M16 19 H48 V27 H38 V47 H26 V27 H16 Z" fill="url(#t)"/>
+  <!-- orbiting NO node -->
+  <circle cx="46" cy="44" r="4.5" fill="#04060d" stroke="url(#t)" stroke-width="2"/>
+  <circle cx="46" cy="44" r="1.6" fill="#22D3EE"/>
+</svg>

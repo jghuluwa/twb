@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Plus, Save, Trash2, FileText, X } from 'lucide-react';
+import { Plus, Save, Trash2, FileText, X, Check } from 'lucide-react';
 import { listAllPages, upsertPage, deletePage, type CmsPage } from './store';
 
 type Lang = 'en' | 'zh' | 'ja' | 'ko' | 'zh-tw';
@@ -44,7 +44,7 @@ export default function PagesManager() {
               <tr key={p.slug} className="hover:bg-slate-50">
                 <td className="px-5 py-3 font-mono text-xs flex items-center gap-2"><FileText className="w-4 h-4 text-slate-400" />{p.slug}</td>
                 <td className="px-5 py-3 font-extrabold">{p.title.zh || p.title.en}</td>
-                <td className="px-5 py-3 text-center text-xs font-black">{p.showInFooter ? '✓' : '✗'}</td>
+                <td className="px-5 py-3 text-xs font-black">{p.showInFooter ? <Check className="w-4 h-4 mx-auto text-emerald-600" /> : <X className="w-4 h-4 mx-auto text-slate-400" />}</td>
                 <td className="px-5 py-3 text-center text-xs font-mono">{p.sortOrder}</td>
                 <td className="px-5 py-3 text-right">
                   <button onClick={() => setEditing({ p: JSON.parse(JSON.stringify(p)), isNew: false })}

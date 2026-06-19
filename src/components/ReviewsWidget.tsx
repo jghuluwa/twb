@@ -50,47 +50,48 @@ export default function ReviewsWidget({ productId, currentLang }: { productId: s
   };
 
   return (
-    <section className="mt-12 max-w-3xl mx-auto px-4">
+    <section className="mt-12 max-w-3xl mx-auto px-4 text-white">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
-          <MessageSquare className="w-5 h-5 text-rose-600" />
+        <h3 className="text-xl font-extrabold text-white flex items-center gap-2">
+          <MessageSquare className="w-5 h-5 text-cyan-300" />
           {t.title}
           {reviews.length > 0 && (
-            <span className="text-sm font-bold text-amber-600 flex items-center gap-1 ml-2">
+            <span className="text-sm font-bold text-amber-400 flex items-center gap-1 ml-2">
               {avg.toFixed(1)} <Star className="w-4 h-4 fill-amber-400" /> · {reviews.length}
             </span>
           )}
         </h3>
-        <button onClick={() => setOpen(!open)} className="text-xs font-bold text-rose-600 hover:underline cursor-pointer">
+        <button onClick={() => setOpen(!open)} className="text-xs font-bold text-cyan-300 hover:underline cursor-pointer">
           {t.writeOne}
         </button>
       </div>
 
       {done && (
-        <p className="bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold px-3 py-2 rounded-lg mb-4">
+        <p className="bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-bold px-3 py-2 rounded-lg mb-4">
           {t.pending}
         </p>
       )}
 
       {open && (
-        <form onSubmit={submit} className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6 space-y-3">
+        <form onSubmit={submit} className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 mb-6 space-y-3">
           <div className="flex items-center gap-1">
             {[1, 2, 3, 4, 5].map((s) => (
               <button key={s} type="button" onClick={() => setRating(s)}
                 className="cursor-pointer">
-                <Star className={`w-6 h-6 ${s <= rating ? 'fill-amber-400 text-amber-400' : 'text-slate-300'}`} />
+                <Star className={`w-6 h-6 ${s <= rating ? 'fill-amber-400 text-amber-400' : 'text-slate-600'}`} />
               </button>
             ))}
           </div>
           <input value={name} onChange={(e) => setName(e.target.value)} required placeholder={t.name}
-            className="w-full bg-white text-sm font-bold text-slate-800 px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-rose-400" />
+            className="w-full bg-white/5 text-sm font-bold text-white placeholder:text-slate-500 px-3 py-2 rounded-lg border border-white/15 focus:outline-none focus:border-cyan-400" />
           <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder={t.email}
-            className="w-full bg-white text-sm font-bold text-slate-800 px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-rose-400" />
+            className="w-full bg-white/5 text-sm font-bold text-white placeholder:text-slate-500 px-3 py-2 rounded-lg border border-white/15 focus:outline-none focus:border-cyan-400" />
           <textarea value={body} onChange={(e) => setBody(e.target.value)} required rows={4} placeholder={t.body}
-            className="w-full bg-white text-sm font-bold text-slate-800 px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:border-rose-400" />
-          {error && <p className="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-2 rounded-lg">{error}</p>}
+            className="w-full bg-white/5 text-sm font-bold text-white placeholder:text-slate-500 px-3 py-2 rounded-lg border border-white/15 focus:outline-none focus:border-cyan-400" />
+          {error && <p className="text-xs font-bold text-rose-300 bg-rose-500/10 border border-rose-500/30 px-3 py-2 rounded-lg">{error}</p>}
           <button type="submit" disabled={busy}
-            className="bg-slate-900 hover:bg-rose-600 text-white font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl cursor-pointer disabled:opacity-60">
+            className="text-[#04060d] font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl cursor-pointer disabled:opacity-60 hover:brightness-110"
+            style={{ background: 'linear-gradient(120deg, #38BDF8, #22D3EE)' }}>
             {t.submit}
           </button>
         </form>
@@ -101,17 +102,17 @@ export default function ReviewsWidget({ productId, currentLang }: { productId: s
       ) : (
         <ul className="space-y-3">
           {reviews.map((r) => (
-            <li key={r.id} className="bg-white border border-slate-200 rounded-2xl p-4">
+            <li key={r.id} className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
               <div className="flex items-center justify-between">
-                <p className="font-extrabold text-slate-900 text-sm">{r.authorName}</p>
+                <p className="font-extrabold text-white text-sm">{r.authorName}</p>
                 <div className="flex items-center gap-0.5">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <Star key={s} className={`w-3.5 h-3.5 ${s <= r.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-200'}`} />
+                    <Star key={s} className={`w-3.5 h-3.5 ${s <= r.rating ? 'fill-amber-400 text-amber-400' : 'text-slate-600'}`} />
                   ))}
                 </div>
               </div>
-              {r.title && <p className="text-sm font-bold text-slate-700 mt-1">{r.title}</p>}
-              <p className="text-sm text-slate-600 mt-1 whitespace-pre-line">{r.body}</p>
+              {r.title && <p className="text-sm font-bold text-slate-200 mt-1">{r.title}</p>}
+              <p className="text-sm text-slate-300 mt-1 whitespace-pre-line">{r.body}</p>
               <p className="text-[10px] text-slate-400 font-bold mt-2">{new Date(r.createdAt).toLocaleDateString()}</p>
             </li>
           ))}

@@ -14,16 +14,16 @@ export default function PageView({ slug, currentLang, onBack }:
   }, [slug]);
 
   return (
-    <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <section className="max-w-3xl mx-auto px-4 sm:px-6 py-12 text-white">
       <button onClick={onBack}
-        className="flex items-center gap-1.5 text-sm font-bold text-slate-500 hover:text-rose-600 mb-6 cursor-pointer">
+        className="flex items-center gap-1.5 text-sm font-bold text-slate-400 hover:text-cyan-300 mb-6 cursor-pointer">
         <ChevronLeft className="w-4 h-4" />
         {backLabel}
       </button>
-      {error && <p className="text-sm font-bold text-rose-600">{error}</p>}
+      {error && <p className="text-sm font-bold text-rose-300">{error}</p>}
       {page && (
-        <article className="prose prose-slate max-w-none">
-          <h1 className="text-3xl font-extrabold text-slate-900 mb-6">{page.title[currentLang] || page.title.zh || page.title.en}</h1>
+        <article className="prose prose-invert max-w-none">
+          <h1 className="text-3xl font-extrabold text-white mb-6">{page.title[currentLang] || page.title.zh || page.title.en}</h1>
           <div dangerouslySetInnerHTML={{ __html: page.bodyHtml[currentLang] || page.bodyHtml.zh || page.bodyHtml.en || '' }} />
         </article>
       )}

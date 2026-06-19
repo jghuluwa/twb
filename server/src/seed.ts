@@ -12,6 +12,7 @@ import { pathToFileURL } from 'node:url';
 import { db } from './db.js';
 import { hashPassword } from './lib/auth.js';
 import { seedDefaultTemplates } from './lib/email.js';
+import { sanitizeText } from './lib/compliance.js';
 
 async function loadFrontendProducts() {
   // tsx loader resolves .ts modules at runtime, letting us import the existing
@@ -118,11 +119,11 @@ async function main() {
           sizes: JSON.stringify(p.sizes ?? []),
           colors: JSON.stringify(p.colors ?? []),
           images: JSON.stringify([]),
-          name: JSON.stringify(p.name),
-          tagline: JSON.stringify(p.tagline),
-          description: JSON.stringify(p.description),
-          recommendedUse: JSON.stringify(p.recommendedUse),
-          details: JSON.stringify(p.details),
+          name: sanitizeText(JSON.stringify(p.name)),
+          tagline: sanitizeText(JSON.stringify(p.tagline)),
+          description: sanitizeText(JSON.stringify(p.description)),
+          recommendedUse: sanitizeText(JSON.stringify(p.recommendedUse)),
+          details: sanitizeText(JSON.stringify(p.details)),
           sortOrder: (idx + 1) * 10
         });
       });
@@ -136,7 +137,7 @@ async function main() {
   // 3. Site content
   const has = db.prepare('SELECT id FROM site_content WHERE id = 1').get();
   if (!has) {
-    db.prepare('INSERT INTO site_content (id, payload) VALUES (1, ?)').run(JSON.stringify(defaultContent));
+    db.prepare('INSERT INTO site_content (id, payload) VALUES (1, ?)').run(sanitizeText(JSON.stringify(defaultContent)));
     console.log('[seed] inserted default site content');
   } else {
     console.log('[seed] site content already exists — skipping');

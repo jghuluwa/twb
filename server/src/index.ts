@@ -24,6 +24,7 @@ import audit from './routes/audit.js';
 import seo from './routes/seo.js';
 import contact from './routes/contact.js';
 import analytics from './routes/analytics.js';
+import { renderHtml } from './lib/seo-render.js';
 
 const app = express();
 const PORT = Number(process.env.PORT || 8080);
@@ -74,9 +75,19 @@ app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d', immutable: true }
 // Serve built frontend (production single-process mode)
 if (fs.existsSync(STATIC_DIR)) {
   app.use(express.static(STATIC_DIR, { maxAge: '1h' }));
-  // SPA fallback — anything not /api or /uploads returns index.html
-  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt).*/, (_req, res) => {
-    res.sendFile(path.join(STATIC_DIR, 'index.html'));
+  const INDEX_HTML = path.join(STATIC_DIR, 'index.html');
+  // SPA fallback — anything not /api or /uploads returns index.html, rewritten
+  // per-route with SEO meta, JSON-LD and a no-JS content snapshot so crawlers
+  // (incl. Baidu / AI bots that don't run JS) index real, localized content.
+  app.get(/^(?!\/api|\/uploads|\/sitemap\.xml|\/robots\.txt|\/llms).*/, (req, res) => {
+    try {
+      const template = fs.readFileSync(INDEX_HTML, 'utf8');
+      res.type('html').send(renderHtml(template, req.path));
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('[therabo] SEO render failed, serving static index:', err);
+      res.sendFile(INDEX_HTML);
+    }
   });
 }
 

@@ -33,11 +33,11 @@ const STATUS_ICON: Record<OrderStatus, typeof Clock> = {
   pending: Clock, paid: Receipt, shipped: Truck, completed: CheckCircle2, cancelled: XCircle
 };
 const STATUS_COLOR: Record<OrderStatus, string> = {
-  pending:   'bg-amber-50 text-amber-700 border-amber-200',
-  paid:      'bg-sky-50 text-sky-700 border-sky-200',
-  shipped:   'bg-violet-50 text-violet-700 border-violet-200',
-  completed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-  cancelled: 'bg-slate-100 text-slate-600 border-slate-200'
+  pending:   'bg-amber-500/10 text-amber-300 border-amber-500/30',
+  paid:      'bg-sky-500/10 text-sky-300 border-sky-500/30',
+  shipped:   'bg-violet-500/10 text-violet-300 border-violet-500/30',
+  completed: 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30',
+  cancelled: 'bg-white/5 text-slate-400 border-white/15'
 };
 
 export default function AccountPage({ currentLang, onBack, onRequireLogin }: AccountPageProps) {
@@ -56,11 +56,12 @@ export default function AccountPage({ currentLang, onBack, onRequireLogin }: Acc
   if (!account) {
     return (
       <section className="max-w-3xl mx-auto px-4 sm:px-6 py-24 text-center">
-        <h2 className="text-2xl font-extrabold text-slate-900">
+        <h2 className="text-2xl font-extrabold text-white">
           {currentLang === 'en' ? 'Please sign in to view your account.' : '请先登录后查看账户'}
         </h2>
-        <button onClick={onBack} className="mt-6 text-sm font-bold text-rose-600 hover:underline">
-          ← {currentLang === 'en' ? 'Back to store' : '返回主站'}
+        <button onClick={onBack} className="mt-6 inline-flex items-center gap-1 text-sm font-bold text-cyan-300 hover:underline cursor-pointer">
+          <ChevronLeft className="w-4 h-4" />
+          {currentLang === 'en' ? 'Back to store' : '返回主站'}
         </button>
       </section>
     );
@@ -75,7 +76,7 @@ export default function AccountPage({ currentLang, onBack, onRequireLogin }: Acc
     <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       <button
         onClick={onBack}
-        className="flex items-center gap-1.5 text-sm font-bold text-slate-500 hover:text-rose-600 mb-6 cursor-pointer"
+        className="flex items-center gap-1.5 text-sm font-bold text-slate-400 hover:text-cyan-300 mb-6 cursor-pointer"
       >
         <ChevronLeft className="w-4 h-4" />
         {currentLang === 'en' ? 'Back to store' : '返回主站'}
@@ -83,14 +84,14 @@ export default function AccountPage({ currentLang, onBack, onRequireLogin }: Acc
 
       <div className="grid grid-cols-1 lg:grid-cols-[260px,1fr] gap-6">
         {/* Sidebar */}
-        <aside className="bg-white border border-slate-200 rounded-2xl p-5 h-fit">
-          <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-            <div className="w-12 h-12 rounded-full bg-rose-600 text-white font-black flex items-center justify-center text-lg">
+        <aside className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 h-fit backdrop-blur-sm">
+          <div className="flex items-center gap-3 pb-4 border-b border-white/10">
+            <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-sky-500 text-[#04060d] font-black flex items-center justify-center text-lg">
               {account.name.slice(0, 1).toUpperCase()}
             </div>
             <div className="min-w-0">
-              <p className="font-extrabold text-slate-900 truncate">{account.name}</p>
-              <p className="text-[11px] text-slate-500 font-bold truncate">{account.email}</p>
+              <p className="font-extrabold text-white truncate">{account.name}</p>
+              <p className="text-[11px] text-slate-400 font-bold truncate">{account.email}</p>
             </div>
           </div>
           <nav className="mt-4 space-y-1">
@@ -101,7 +102,7 @@ export default function AccountPage({ currentLang, onBack, onRequireLogin }: Acc
           </nav>
           <button
             onClick={handleLogout}
-            className="mt-4 w-full flex items-center justify-center gap-2 text-xs font-bold text-slate-500 hover:text-white hover:bg-rose-600 border border-slate-200 hover:border-rose-600 rounded-lg py-2 transition-colors cursor-pointer"
+            className="mt-4 w-full flex items-center justify-center gap-2 text-xs font-bold text-slate-400 hover:text-white hover:bg-rose-600 border border-white/15 hover:border-rose-600 rounded-lg py-2 transition-colors cursor-pointer"
           >
             <LogOut className="w-3.5 h-3.5" />
             {currentLang === 'en' ? 'Sign out' : '退出登录'}
@@ -126,7 +127,7 @@ function TabLink({ active, onClick, icon: Icon, label }:
     <button
       onClick={onClick}
       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-bold transition-colors cursor-pointer ${
-        active ? 'bg-rose-600 text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50'
+        active ? 'bg-cyan-500/15 text-cyan-200 border border-cyan-500/30' : 'text-slate-300 hover:bg-white/10'
       }`}
     >
       <Icon className="w-4 h-4" />
@@ -161,25 +162,25 @@ function ProfileTab({ account, currentLang, onChange }:
     <SectionCard title={currentLang === 'en' ? 'Profile' : '个人资料'} subtitle={currentLang === 'en' ? 'Manage how Therabo identifies you.' : '管理你的个人信息。'}>
       <form onSubmit={save} className="space-y-4 max-w-lg">
         <Labeled label={currentLang === 'en' ? 'Email (login)' : '邮箱（登录账号）'}>
-          <input value={account.email} disabled className="w-full bg-slate-100 text-sm font-bold text-slate-500 px-3 py-2.5 rounded-lg border border-slate-200" />
+          <input value={account.email} disabled className="w-full bg-white/10 text-sm font-bold text-slate-400 px-3 py-2.5 rounded-lg border border-white/15" />
         </Labeled>
         <Labeled label={currentLang === 'en' ? 'Full name' : '姓名'}>
-          <input value={name} onChange={(e) => setName(e.target.value)} required className="w-full bg-slate-50 text-sm font-bold text-slate-800 px-3 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:border-rose-400" />
+          <input value={name} onChange={(e) => setName(e.target.value)} required className="w-full bg-white/5 text-sm font-bold text-slate-200 px-3 py-2.5 rounded-lg border border-white/15 focus:outline-none focus:border-cyan-400" />
         </Labeled>
         <div className="grid grid-cols-2 gap-3">
           <Labeled label={currentLang === 'en' ? 'Phone' : '手机'}>
-            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-slate-50 text-sm font-bold text-slate-800 px-3 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:border-rose-400" />
+            <input value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full bg-white/5 text-sm font-bold text-slate-200 px-3 py-2.5 rounded-lg border border-white/15 focus:outline-none focus:border-cyan-400" />
           </Labeled>
           <Labeled label={currentLang === 'en' ? 'Country' : '国家/地区'}>
-            <input value={country} onChange={(e) => setCountry(e.target.value)} className="w-full bg-slate-50 text-sm font-bold text-slate-800 px-3 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:border-rose-400" />
+            <input value={country} onChange={(e) => setCountry(e.target.value)} className="w-full bg-white/5 text-sm font-bold text-slate-200 px-3 py-2.5 rounded-lg border border-white/15 focus:outline-none focus:border-cyan-400" />
           </Labeled>
         </div>
-        {error && <p className="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-2 rounded-lg">{error}</p>}
+        {error && <p className="text-xs font-bold text-rose-300 bg-rose-500/10 border border-rose-500/30 px-3 py-2 rounded-lg">{error}</p>}
         <div className="flex items-center gap-3">
-          <button type="submit" className="bg-slate-900 hover:bg-rose-600 text-white font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl cursor-pointer">
+          <button type="submit" className="bg-cyan-500 hover:bg-cyan-400 text-[#04060d] font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl cursor-pointer">
             {currentLang === 'en' ? 'Save changes' : '保存修改'}
           </button>
-          {saved && <span className="text-xs font-bold text-emerald-600 flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" />{currentLang === 'en' ? 'Saved' : '已保存'}</span>}
+          {saved && <span className="text-xs font-bold text-emerald-300 flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" />{currentLang === 'en' ? 'Saved' : '已保存'}</span>}
         </div>
       </form>
     </SectionCard>
@@ -193,7 +194,7 @@ function OrdersTab({ account, currentLang }: { account: CustomerAccount; current
   return (
     <SectionCard title={currentLang === 'en' ? 'My orders' : '我的订单'} subtitle={currentLang === 'en' ? `${orders.length} order(s) on file.` : `共 ${orders.length} 笔订单。`}>
       {orders.length === 0 ? (
-        <p className="text-sm text-slate-500 font-bold py-10 text-center">
+        <p className="text-sm text-slate-400 font-bold py-10 text-center">
           {currentLang === 'en' ? 'No orders yet — go grab something!' : '暂无订单，去逛逛吧！'}
         </p>
       ) : (
@@ -202,11 +203,11 @@ function OrdersTab({ account, currentLang }: { account: CustomerAccount; current
             const Icon = STATUS_ICON[o.status];
             const sym = o.currency === 'CNY' ? '¥' : '$';
             return (
-              <div key={o.id} className="border border-slate-200 rounded-2xl p-4 hover:border-rose-200 transition-colors">
+              <div key={o.id} className="border border-white/10 rounded-2xl p-4 hover:border-cyan-400/40 transition-colors bg-white/[0.02]">
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <div>
-                    <p className="font-mono text-xs font-black text-slate-900">{o.id}</p>
-                    <p className="text-[11px] text-slate-500 font-bold">{new Date(o.createdAt).toLocaleString('zh-CN')}</p>
+                    <p className="font-mono text-xs font-black text-white">{o.id}</p>
+                    <p className="text-[11px] text-slate-400 font-bold">{new Date(o.createdAt).toLocaleString('zh-CN')}</p>
                   </div>
                   <span className={`inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider py-0.5 px-2 rounded-full border ${STATUS_COLOR[o.status]}`}>
                     <Icon className="w-3 h-3" />
@@ -215,15 +216,15 @@ function OrdersTab({ account, currentLang }: { account: CustomerAccount; current
                 </div>
                 <ul className="mt-3 space-y-1 text-sm">
                   {o.items.map((it, i) => (
-                    <li key={i} className="flex justify-between text-slate-700 font-bold">
+                    <li key={i} className="flex justify-between text-slate-200 font-bold">
                       <span className="truncate pr-3">{it.productName} · {it.selectedColorName} / {it.selectedSize} × {it.quantity}</span>
-                      <span className="font-mono text-slate-500">{sym}{(it.unitPrice * it.quantity).toLocaleString()}</span>
+                      <span className="font-mono text-slate-400">{sym}{(it.unitPrice * it.quantity).toLocaleString()}</span>
                     </li>
                   ))}
                 </ul>
-                <div className="mt-3 pt-3 border-t border-slate-100 flex justify-between text-sm font-bold">
-                  <span className="text-slate-500">{currentLang === 'en' ? 'Total' : '合计'}</span>
-                  <span className="font-mono font-black text-slate-900">{sym}{o.subtotal.toLocaleString()}</span>
+                <div className="mt-3 pt-3 border-t border-white/10 flex justify-between text-sm font-bold">
+                  <span className="text-slate-400">{currentLang === 'en' ? 'Total' : '合计'}</span>
+                  <span className="font-mono font-black text-white">{sym}{o.subtotal.toLocaleString()}</span>
                 </div>
               </div>
             );
@@ -263,7 +264,7 @@ function AddressesTab({ account, currentLang, onChange }:
       action={
         <button
           onClick={() => { setEditing(null); setShowForm(true); }}
-          className="flex items-center gap-1.5 bg-slate-900 hover:bg-rose-600 text-white font-bold text-xs px-3 py-2 rounded-lg cursor-pointer"
+          className="flex items-center gap-1.5 bg-cyan-500 hover:bg-cyan-400 text-[#04060d] font-bold text-xs px-3 py-2 rounded-lg cursor-pointer"
         >
           <Plus className="w-3.5 h-3.5" />
           {currentLang === 'en' ? 'Add address' : '新增地址'}
@@ -271,32 +272,32 @@ function AddressesTab({ account, currentLang, onChange }:
       }
     >
       {account.addresses.length === 0 && !showForm && (
-        <p className="text-sm text-slate-500 font-bold py-10 text-center">
+        <p className="text-sm text-slate-400 font-bold py-10 text-center">
           {currentLang === 'en' ? 'No saved addresses yet.' : '暂未保存任何地址。'}
         </p>
       )}
 
       <div className="space-y-3">
         {account.addresses.map((a) => (
-          <div key={a.id} className="border border-slate-200 rounded-2xl p-4 flex items-start gap-3">
+          <div key={a.id} className="border border-white/15 rounded-2xl p-4 flex items-start gap-3">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="font-extrabold text-slate-900">{a.label}</p>
-                {a.isDefault && <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider py-0.5 px-2 rounded-full bg-rose-50 text-rose-700 border border-rose-200"><Star className="w-3 h-3" />{currentLang === 'en' ? 'Default' : '默认'}</span>}
+                <p className="font-extrabold text-white">{a.label}</p>
+                {a.isDefault && <span className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider py-0.5 px-2 rounded-full bg-cyan-500/10 text-cyan-300 border border-cyan-500/30"><Star className="w-3 h-3" />{currentLang === 'en' ? 'Default' : '默认'}</span>}
               </div>
-              <p className="text-sm font-bold text-slate-700 mt-1">{a.recipient} · {a.phone}</p>
-              <p className="text-xs text-slate-500 font-bold mt-0.5">{a.country} {a.address}</p>
+              <p className="text-sm font-bold text-slate-200 mt-1">{a.recipient} · {a.phone}</p>
+              <p className="text-xs text-slate-400 font-bold mt-0.5">{a.country} {a.address}</p>
             </div>
             <div className="flex items-center gap-1 shrink-0">
               {!a.isDefault && (
-                <button onClick={() => setDefault(a.id)} title={currentLang === 'en' ? 'Set as default' : '设为默认'} className="p-1.5 text-amber-600 hover:bg-amber-50 rounded cursor-pointer">
+                <button onClick={() => setDefault(a.id)} title={currentLang === 'en' ? 'Set as default' : '设为默认'} className="p-1.5 text-amber-400 hover:bg-amber-400/10 rounded cursor-pointer">
                   <Star className="w-4 h-4" />
                 </button>
               )}
-              <button onClick={() => { setEditing(a); setShowForm(true); }} title={currentLang === 'en' ? 'Edit' : '编辑'} className="p-1.5 text-sky-600 hover:bg-sky-50 rounded cursor-pointer">
+              <button onClick={() => { setEditing(a); setShowForm(true); }} title={currentLang === 'en' ? 'Edit' : '编辑'} className="p-1.5 text-sky-400 hover:bg-sky-400/10 rounded cursor-pointer">
                 <Pencil className="w-4 h-4" />
               </button>
-              <button onClick={() => remove(a.id)} title={currentLang === 'en' ? 'Delete' : '删除'} className="p-1.5 text-rose-600 hover:bg-rose-50 rounded cursor-pointer">
+              <button onClick={() => remove(a.id)} title={currentLang === 'en' ? 'Delete' : '删除'} className="p-1.5 text-rose-400 hover:bg-rose-500/15 rounded cursor-pointer">
                 <Trash2 className="w-4 h-4" />
               </button>
             </div>
@@ -343,7 +344,7 @@ function AddressForm({ customerId, currentLang, initial, onCancel, onSaved }:
   };
 
   return (
-    <form onSubmit={submit} className="mt-4 p-4 border-2 border-dashed border-slate-200 rounded-2xl space-y-3 bg-slate-50/50">
+    <form onSubmit={submit} className="mt-4 p-4 border-2 border-dashed border-white/15 rounded-2xl space-y-3 bg-white/[0.03]">
       <div className="grid grid-cols-2 gap-3">
         <Labeled label={currentLang === 'en' ? 'Label' : '标签'}><input value={label} onChange={(e) => setLabel(e.target.value)} required className={inp} /></Labeled>
         <Labeled label={currentLang === 'en' ? 'Recipient' : '收件人'}><input value={recipient} onChange={(e) => setRecipient(e.target.value)} required className={inp} /></Labeled>
@@ -351,16 +352,16 @@ function AddressForm({ customerId, currentLang, initial, onCancel, onSaved }:
         <Labeled label={currentLang === 'en' ? 'Country' : '国家/地区'}><input value={country} onChange={(e) => setCountry(e.target.value)} required className={inp} /></Labeled>
       </div>
       <Labeled label={currentLang === 'en' ? 'Address' : '详细地址'}><textarea value={address} onChange={(e) => setAddress(e.target.value)} required rows={2} className={inp + ' min-h-[60px]'} /></Labeled>
-      <label className="flex items-center gap-2 text-xs font-bold text-slate-600 cursor-pointer">
+      <label className="flex items-center gap-2 text-xs font-bold text-slate-300 cursor-pointer">
         <input type="checkbox" checked={isDefault} onChange={(e) => setIsDefault(e.target.checked)} />
         {currentLang === 'en' ? 'Set as default address' : '设为默认地址'}
       </label>
-      {error && <p className="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-2 rounded-lg">{error}</p>}
+      {error && <p className="text-xs font-bold text-rose-300 bg-rose-500/10 border border-rose-500/30 px-3 py-2 rounded-lg">{error}</p>}
       <div className="flex items-center gap-2">
-        <button type="submit" className="bg-slate-900 hover:bg-rose-600 text-white font-extrabold text-xs uppercase tracking-wider px-4 py-2 rounded-lg cursor-pointer">
+        <button type="submit" className="bg-cyan-500 hover:bg-cyan-400 text-[#04060d] font-extrabold text-xs uppercase tracking-wider px-4 py-2 rounded-lg cursor-pointer">
           {currentLang === 'en' ? 'Save' : '保存'}
         </button>
-        <button type="button" onClick={onCancel} className="text-xs font-bold text-slate-500 hover:text-slate-900 px-3 py-2 cursor-pointer">
+        <button type="button" onClick={onCancel} className="text-xs font-bold text-slate-400 hover:text-white px-3 py-2 cursor-pointer">
           {currentLang === 'en' ? 'Cancel' : '取消'}
         </button>
       </div>
@@ -405,12 +406,12 @@ function PasswordTab({ account, currentLang }: { account: CustomerAccount; curre
         <Labeled label={currentLang === 'en' ? 'Confirm new password' : '确认新密码'}>
           <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} required minLength={6} className={inp} />
         </Labeled>
-        {error && <p className="text-xs font-bold text-rose-700 bg-rose-50 border border-rose-200 px-3 py-2 rounded-lg">{error}</p>}
+        {error && <p className="text-xs font-bold text-rose-300 bg-rose-500/10 border border-rose-500/30 px-3 py-2 rounded-lg">{error}</p>}
         <div className="flex items-center gap-3">
-          <button type="submit" className="bg-slate-900 hover:bg-rose-600 text-white font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl cursor-pointer">
+          <button type="submit" className="bg-cyan-500 hover:bg-cyan-400 text-[#04060d] font-extrabold text-xs uppercase tracking-wider px-5 py-2.5 rounded-xl cursor-pointer">
             {currentLang === 'en' ? 'Update password' : '更新密码'}
           </button>
-          {done && <span className="text-xs font-bold text-emerald-600 flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" />{currentLang === 'en' ? 'Password updated' : '密码已更新'}</span>}
+          {done && <span className="text-xs font-bold text-emerald-300 flex items-center gap-1"><CheckCircle2 className="w-3.5 h-3.5" />{currentLang === 'en' ? 'Password updated' : '密码已更新'}</span>}
         </div>
       </form>
     </SectionCard>
@@ -418,16 +419,16 @@ function PasswordTab({ account, currentLang }: { account: CustomerAccount; curre
 }
 
 // ── Layout primitives ──
-const inp = 'w-full bg-white text-sm font-bold text-slate-800 px-3 py-2.5 rounded-lg border border-slate-200 focus:outline-none focus:border-rose-400';
+const inp = 'w-full bg-white/5 text-sm font-bold text-slate-200 px-3 py-2.5 rounded-lg border border-white/15 focus:outline-none focus:border-cyan-400';
 
 function SectionCard({ title, subtitle, action, children }:
   { title: string; subtitle?: string; action?: ReactNode; children: ReactNode }) {
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-6">
+    <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 backdrop-blur-sm">
       <div className="flex items-start justify-between mb-4 gap-3 flex-wrap">
         <div>
-          <h2 className="text-xl font-extrabold text-slate-900">{title}</h2>
-          {subtitle && <p className="text-sm text-slate-500 font-bold mt-1">{subtitle}</p>}
+          <h2 className="text-xl font-extrabold text-white">{title}</h2>
+          {subtitle && <p className="text-sm text-slate-400 font-bold mt-1">{subtitle}</p>}
         </div>
         {action}
       </div>
