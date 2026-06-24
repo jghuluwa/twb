@@ -97,7 +97,7 @@ interface HomeCopy {
 
 const HOME: Record<Lang, HomeCopy> = {
   zh: {
-    title: '一氧化氮穿戴理疗服_PHOTEX太赫兹微循环科技功能衣_通微宝Therabo',
+    title: '通微宝 Therabo | 让补一氧化氮像穿衣一样简单',
     description: '通微宝Therabo是一氧化氮穿戴理疗服装品牌，采用PHOTEX太赫兹生物谱能面料（25–43THz），通过纯物理共振辅助激发人体自身一氧化氮释放、促进微循环。无药物、无激素、可水洗，覆盖护膝、护腰、护颈及健康内衣。北京中科医用材料有限公司研制。',
     keywords: '一氧化氮穿戴理疗服,一氧化氮服装,通微宝,Therabo,PHOTEX,太赫兹面料,远红外功能衣,促进微循环,运动恢复护具,护膝护腰,健康内衣,北京中科医用材料',
     h1: '通微宝 Therabo 一氧化氮穿戴理疗服装',
@@ -115,7 +115,7 @@ const HOME: Record<Lang, HomeCopy> = {
     ]
   },
   en: {
-    title: 'Nitric Oxide Wearable Therapy Clothing - PHOTEX Recovery Apparel | Therabo',
+    title: 'Therabo | Making Nitric Oxide Supplementation as Simple as Getting Dressed',
     description: 'Therabo makes nitric oxide wearable therapy clothing using PHOTEX terahertz bio-resonance fabric (25–43THz) that helps stimulate your body’s own nitric oxide release and supports microcirculation. Drug-free, hormone-free, washable knee, waist, neck supports and health underwear.',
     keywords: 'nitric oxide wearable therapy clothing, nitric oxide apparel, Therabo, PHOTEX, terahertz fabric, far infrared recovery wear, microcirculation, sports recovery support, knee support, health underwear',
     h1: 'Therabo Nitric Oxide Wearable Therapy Clothing',
@@ -133,7 +133,7 @@ const HOME: Record<Lang, HomeCopy> = {
     ]
   },
   'zh-tw': {
-    title: '一氧化氮穿戴理療服_PHOTEX太赫茲微循環科技功能衣_通微寶Therabo',
+    title: '通微寶 Therabo | 讓補一氧化氮像穿衣一樣簡單',
     description: '通微寶Therabo是一氧化氮穿戴理療服裝品牌，採用PHOTEX太赫茲生物譜能面料（25–43THz），透過純物理共振輔助激發人體自身一氧化氮釋放、促進微循環。無藥物、無激素、可水洗，涵蓋護膝、護腰、護頸及健康內衣。',
     keywords: '一氧化氮穿戴理療服,通微寶,Therabo,PHOTEX,太赫茲面料,遠紅外功能衣,促進微循環,運動恢復護具,護膝護腰,健康內衣',
     h1: '通微寶 Therabo 一氧化氮穿戴理療服裝',
@@ -150,7 +150,7 @@ const HOME: Record<Lang, HomeCopy> = {
     ]
   },
   ja: {
-    title: '一酸化窒素ウェアラブル・PHOTEXテラヘルツ機能性ウェア | Therabo 通微宝',
+    title: '一酸化窒素の補給を着るだけで簡単に | Therabo 通微宝',
     description: 'Theraboは PHOTEXテラヘルツ素材（25–43THz）を用いた一酸化窒素ウェアラブル機能性ウェアです。物理的な共鳴で体内の一酸化窒素の放出を助け、微小循環をサポート。薬剤・ホルモン不使用、洗濯可能。',
     keywords: '一酸化窒素, ウェアラブル, PHOTEX, テラヘルツ素材, 微小循環, 機能性ウェア, Therabo, 通微宝',
     h1: 'Therabo 一酸化窒素ウェアラブル機能性ウェア',
@@ -165,7 +165,7 @@ const HOME: Record<Lang, HomeCopy> = {
     ]
   },
   ko: {
-    title: '산화질소 웨어러블·PHOTEX 테라헤르츠 기능성 의류 | Therabo 통웨이바오',
+    title: 'Therabo 통웨이바오 | 산화질소 보충을 옷 입듯 간단하게',
     description: 'Therabo는 PHOTEX 테라헤르츠 원단(25–43THz)을 사용한 산화질소 웨어러블 기능성 의류입니다. 물리적 공명으로 체내 산화질소 방출을 도와 미세순환을 지원합니다. 무약물·무호르몬·세탁 가능.',
     keywords: '산화질소, 웨어러블, PHOTEX, 테라헤르츠 원단, 미세순환, 기능성 의류, Therabo',
     h1: 'Therabo 산화질소 웨어러블 기능성 의류',

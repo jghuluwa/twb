@@ -17,11 +17,11 @@ const OG_IMAGE = `${BASE_URL}/photex-fabric-hero.jpg`;
 type Localized = Record<Language, string>;
 
 const DEFAULT_TITLE: Localized = {
-  zh: '通微宝 Therabo | 一氧化氮可穿戴科技 · PHOTEX 太赫兹面料',
-  'zh-tw': '通微寶 Therabo | 一氧化氮可穿戴科技 · PHOTEX 太赫茲面料',
-  en: 'Therabo | Nitric Oxide Wearable Technology · PHOTEX Terahertz Fabric',
-  ja: 'Therabo 通微宝 | 一酸化窒素ウェアラブル · PHOTEXテラヘルツ素材',
-  ko: 'Therabo 통웨이바오 | 산화질소 웨어러블 · PHOTEX 테라헤르츠 원단'
+  zh: '通微宝 Therabo | 让补一氧化氮像穿衣一样简单',
+  'zh-tw': '通微寶 Therabo | 讓補一氧化氮像穿衣一樣簡單',
+  en: 'Therabo | Making Nitric Oxide Supplementation as Simple as Getting Dressed',
+  ja: 'Therabo 通微宝 | 一酸化窒素の補給を着るだけで簡単に',
+  ko: 'Therabo 통웨이바오 | 산화질소 보충을 옷 입듯 간단하게'
 };
 
 const DEFAULT_DESC: Localized = {
